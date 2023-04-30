@@ -1,0 +1,17 @@
+.testimonial_Item {
+  min-height: 15rem;
+  /* background-color: whitesmoke; */
+  border-radius: 10px;
+  background-color: whitesmoke;
+}
+.imgCirle {
+  clip-path: circle(50% at 50%);
+  background-color: white;
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  background-position: center;
+  background-attachment: scroll;
+  background-repeat: no-repeat;
+  background-size: cover;
+}

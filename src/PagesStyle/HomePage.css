@@ -1,0 +1,40 @@
+.header {
+  margin-top: 10px;
+  position: fixed;
+  height: 70px;
+  width: 100%;
+  top: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.container-header {
+  height: 45rem;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-position: right;
+}
+
+.hero1_2 {
+  background-attachment: scroll;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: right;
+}
+
+.heroImg {
+  animation: fadeRotate 0.3s ease-in-out;
+  pointer-events: none;
+}
+
+@keyframes fadeRotate {
+  0%{
+    opacity: 0%;
+    transform: rotate(70deg) translateX(100%) ;
+  }
+  50%{
+  }
+  100% {
+    opacity: 100%;
+  }
+}

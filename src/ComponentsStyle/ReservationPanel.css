@@ -1,0 +1,21 @@
+.reservationPanel{
+    background-color: white;
+    min-height:180px;
+    border-radius: 10px;
+    z-index: 159;
+    margin-top: -50px;
+}
+.theDatePicker{
+    height:50px;
+    border-radius: 0;
+    border: none;
+}
+.theDatePicker div input{
+    font-size: 20px !important;
+    font-family: "Poppins",sans-serif;
+}
+.btn-reserver{
+    height: 50px;
+    background-color: #ff4d30 !important;
+    /* border-radius: 0 5px 5px 0 !important; */
+}

@@ -1,0 +1,26 @@
+.testimonials_container {
+    position: relative;
+    margin-top: 50px;
+    z-index: 10;
+}
+
+.testimonials_items_container {
+  min-height: 15rem;
+}
+.nextBtn,.previousBtn{
+    width: 70px;
+    height:15rem;
+    cursor: pointer;
+    transition: .3s ease-in-out linear;
+    background: white;
+    border-radius:10px;
+    /* background-color:red; */
+}
+.nextBtn:active,.previousBtn:active{
+    transition: .3s ease-in-out linear;
+    transform: scale(0.9);
+}
+
+.nextBtn:hover,.previousBtn:hover{
+    background-color: whitesmoke;
+}

@@ -5,9 +5,61 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #f8f8f8;
+  user-select: none;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+
+.center{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+.center-row{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+.center-column{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.end-column{
+  display:flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-direction: column;
+}
+
+.orangeBg{
+  background-color: #ff4d30 !important;
+}
+.orangeColor{
+  color: #ff4d30 !important;
+}
+.HoverOrangeColor{
+  transition: .3s ease-in-out linear;
+}
+.HoverOrangeColor:hover{
+  transition: .3s ease-in-out linear;
+  color: #ff4d30 !important;
+}
+.Hand{
+cursor: pointer;
+}
+.width-auto{
+  width: auto;
+}
+
+.GreyColor{
+  color:#65676a;
 }

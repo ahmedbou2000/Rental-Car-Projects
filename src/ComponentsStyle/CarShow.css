@@ -1,0 +1,48 @@
+.carShowcontainer{
+    min-height:20rem;
+}
+.modelBtn{
+    height:2.5rem;
+    background-color: whitesmoke;
+    border-radius: 5px;
+    margin: 0.4rem;
+    cursor: pointer;
+    transition: .3s ease-in-out ;
+    user-select: none;
+    border:none;
+    text-decoration: none;
+    color:black
+}
+.modelBtn:hover{
+    transition: .3s ease-in-out ;
+    background-color: rgb(219, 215, 215);
+    color:black
+}
+.imgContainer{
+    min-height: 25rem;
+    object-fit: cover;
+    background-position: center;
+    background-attachment: scroll;
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow: hidden;
+    transition: .3s ease-in-out;
+}
+    
+.imgCar{
+    max-width: 90%;
+    max-height: 25rem;
+    transition: .3s ease-in-out;
+    pointer-events: none;
+}
+.imgCar:hover{
+    transition: .3s ease-in-out;
+    transform: scale(1.1);
+}
+
+.DetailsContainer{
+    min-height: 20rem;
+}
+.carActive{
+    background-color: rgb(219, 215, 215);
+}

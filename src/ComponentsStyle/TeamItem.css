@@ -1,0 +1,37 @@
+.TeamImgCircle {
+    width: 200px;
+    height: 200px;
+  clip-path: circle(50% at 50%);
+  background-color: whitesmoke;
+  /* box-shadow: 0px 0px 22px 0px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 0px 0px 22px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 22px 0px rgba(0, 0, 0, 0.75); */
+  object-fit: cover;
+  background-position: center;
+  background-size: cover;
+  background-attachment: scroll;
+  background-repeat: no-repeat ;
+}
+.teamItemContainer{
+    animation: upDown 5s ease-in-out infinite;
+    transition: .3s ease-in-out;
+}
+.teamItemContainer:hover{
+    transition: .3s ease-in-out;
+    transform: scale(1.02);
+    animation: none;
+}
+
+
+@keyframes upDown {
+    0%{
+        transform: translateY(5%);
+    }
+    50%{
+transform: translateY(-5%);
+    }
+    100%{
+transform: translateY(5%);
+    }
+    
+}
