@@ -5,7 +5,6 @@ This is a rental car website designed to make car reservations hassle-free. The 
 ## Features
 - User-friendly interface to search for available cars
 - Secure and easy booking process
-- Multiple payment options
 - Real-time availability of cars
 - Confirmation email and SMS
 - Edit and cancel reservation option available
