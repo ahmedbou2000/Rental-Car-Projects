@@ -1,59 +1,62 @@
 [
-    {
-        "img":0,
-        "year":2022,
-        "name":"mercedes",
-        "price":450,
-        "door":5,
-        "ac":"oui",
-        "gear":"automatique",
-        "fuel":"diesel"
-    },{
-      "img": 1,
-      "year": 2022,
-      "name": "range",
-      "price": 500,
-      "door": 5,
-      "ac": "oui",
-      "gear": "automatique",
-      "fuel": "diesel"
-    },
-    {
-      "img": 2,
-      "year": 2021,
-      "name": "audi",
-      "price": 350,
-      "door": 5,
-      "ac": "oui",
-      "gear": "automatique",
-      "fuel": "diesel"
-    },
-    {
-      "img": 3,
-      "year": 2019,
-      "name": "golf",
-      "price": 400,
-      "door": 5,
-      "ac": "oui",
-      "gear": "Manuel",
-      "fuel": "diesel"
-    },{
-      "img": 4,
-      "year": 2020,
-      "name": "opel",
-      "price": 300,
-      "door": 5,
-      "ac": "oui",
-      "gear": "Manuel",
-      "fuel": "diesel"
-    },{
-      "img": 5,
-      "year": 2019,
-      "name": "renault",
-      "price": 250,
-      "door": 3,
-      "ac": "oui",
-      "gear": "Manuel",
-      "fuel": "diesel"
-    }
+  {
+    "img": 0,
+    "year": 2022,
+    "name": "mercedes",
+    "price": 450,
+    "door": 5,
+    "ac": "oui",
+    "gear": "automatique",
+    "fuel": "diesel"
+  },
+  {
+    "img": 1,
+    "year": 2022,
+    "name": "range",
+    "price": 500,
+    "door": 5,
+    "ac": "oui",
+    "gear": "automatique",
+    "fuel": "diesel"
+  },
+  {
+    "img": 2,
+    "year": 2021,
+    "name": "audi",
+    "price": 350,
+    "door": 5,
+    "ac": "oui",
+    "gear": "automatique",
+    "fuel": "diesel"
+  },
+  {
+    "img": 3,
+    "year": 2019,
+    "name": "golf",
+    "price": 400,
+    "door": 5,
+    "ac": "oui",
+    "gear": "Manuel",
+    "fuel": "diesel"
+  },
+  {
+    "img": 4,
+    "year": 2020,
+    "name": "opel",
+    "price": 300,
+    "door": 5,
+    "ac": "oui",
+    "gear": "Manuel",
+    "fuel": "diesel"
+  },
+  {
+    "img": 5,
+    "year": 2019,
+    "name": "renault",
+    "price": 250,
+    "door": 3,
+    "ac": "oui",
+    "gear": "Manuel",
+    "fuel": "diesel"
+  }
 ]

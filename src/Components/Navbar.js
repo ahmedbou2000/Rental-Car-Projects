@@ -7,11 +7,13 @@ import $ from "jquery";
 import links from "../Config/NavLinks.json";
 import { Sling as Hamburger } from "hamburger-react";
 import Login from "./Login";
+import SignUp from "./SignUp";
 const Navbar = () => {
   const [showNavbg, setShowedNav] = useState($(window).scrollTop() > 50);
   const [ismobile, setIsmobile] = useState(localStorage.getItem("isMobile"));
   const [NavOpen, setNavOpen] = useState(false);
   const [LoginOpen, setLoginOpen] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
   const state = useSelector((state) => state);
   const linkStyle = {
     color: state.color,
@@ -69,9 +71,14 @@ const Navbar = () => {
               lg={3}
               className="h-100 end-column"
             >
-              <Button variant="text" style={{ color: "black", height: "50px" }} onClick={()=>{
-                setLoginOpen(true)
-              }}>
+              <Button
+                variant="text"
+                style={{ color: "black", height: "50px" }}
+                onClick={() => {
+                  setLoginOpen(true);
+                  setIsLogin(true);
+                }}
+              >
                 se connecter
               </Button>
               <Button
@@ -79,7 +86,8 @@ const Navbar = () => {
                 className="shadow ms-3"
                 style={{ backgroundColor: "#ff4d30", height: "50px" }}
                 onClick={() => {
-                  alert(state.ismobile);
+                  setLoginOpen(true);
+                  setIsLogin(false);
                 }}
               >
                 s'enregistrer
@@ -130,6 +138,28 @@ const Navbar = () => {
             </a>
             // </span>
           ))}
+          <a
+            style={linkStyle}
+            className="w-100  my-1 Rubik text-capitalize link text-center navItemMobile Hand"
+            onClick={() => {
+              setNavOpen(!NavOpen);
+              setLoginOpen(true);
+              setIsLogin(true);
+            }}
+          >
+            se connecter
+          </a>
+          <a
+            style={linkStyle}
+            className="w-100  my-1 Rubik text-capitalize link text-center navItemMobile Hand"
+            onClick={() => {
+              setNavOpen(!NavOpen);
+              setLoginOpen(true);
+              setIsLogin(false);
+            }}
+          >
+            s'enregistrer
+          </a>
         </div>
       </Modal>
       {/************************* Login Modal *********************/}
@@ -138,7 +168,7 @@ const Navbar = () => {
           className={`loginModel ${
             ismobile === "true" ? "w-100" : "w-25"
           } bg-white shadow rounded`}
-          style={{ height: ismobile === "true" ? "100vh" : "30rem" }}
+          style={{ minHeight: ismobile === "true" ? "100vh" : "30rem" }}
         >
           <div
             className="w-100 d-flex justify-content-end align-items-center "
@@ -152,7 +182,7 @@ const Navbar = () => {
             />
           </div>
           <div style={{ height: "90%" }} className="w-100 ">
-            <Login/>
+            {isLogin ? <Login /> : <SignUp />}
           </div>
         </div>
       </Modal>

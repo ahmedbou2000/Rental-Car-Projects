@@ -1,15 +1,9 @@
 import { Button, Checkbox, FormControlLabel, Grid, TextField } from "@mui/material";
 import "../ComponentsStyle/Login.css";
-// import { useEffect, useState } from "react";
-// import $ from "jquery";
-const Login = () => {
-//   const [ismobile, setIsmobile] = useState(localStorage.getItem("isMobile"));
 
-//   useEffect(() => {
-//     $(window).on("resize", () => {
-//       setIsmobile(localStorage.getItem("isMobile"));
-//     });
-//   }, []);
+
+const Login = () => {
+    
   return (
     <div className="w-100 h-100  d-flex flex-column justify-content-center align-items-center">
       <h1 className="Poppins w-100  text-center f-20 mt-3">
@@ -20,13 +14,6 @@ const Login = () => {
         réservations en cours.
       </p>
       <Grid container className="w-100 h-100 center">
-        {/* {ismobile === "true" ? (
-          ""
-        ) : (
-          <Grid item xs={0} sm={0} md={6} lg={6} className="w-100 h-100 center">
-            <img src={loginVector} alt="login vector" className="w-100 " />
-          </Grid>
-        )} */}
         <Grid
           item
           xs={12}
