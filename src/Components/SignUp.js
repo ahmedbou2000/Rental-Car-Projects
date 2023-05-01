@@ -5,6 +5,12 @@ import {useState} from "react";
 const SignUp = () => {
     const [pwd, setPwd] = useState("")
     const [pwd2,setPwd2]  = useState("")
+
+
+    const EmptyAll =()=>{
+        setPwd("");
+        setPwd2("");
+    }
   return (
     <div className="w-100 h-100   d-flex flex-column justify-content-center align-items-center">
       <h1 className="Poppins w-100  text-center f-20 mt-3">inscrivez-vous</h1>
