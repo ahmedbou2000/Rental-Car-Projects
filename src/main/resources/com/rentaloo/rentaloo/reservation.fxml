@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="592.0" prefWidth="933.0" stylesheets="@../../../Styles/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rentaloo.rentaloo.ReservationController">
+   <children>
+      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <tabs>
+          <Tab fx:id="RentalList" text="Liste locations">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="RentalListTable" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                     </children>
+                     <padding>
+                        <Insets top="5.0" />
+                     </padding>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab fx:id="ReservationList" text="Liste reservation">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="ReservationListTable" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                     </children>
+                     <padding>
+                        <Insets top="5.0" />
+                     </padding></AnchorPane>
+            </content>
+          </Tab>
+            <Tab fx:id="AddLocation" text="Ajouter Location">
+              <content>
+                <AnchorPane fx:id="AddLocationContainer" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <padding>
+                        <Insets top="5.0" />
+                     </padding>
+                     <children>
+                        <AnchorPane fx:id="ReservationInfoSide" layoutX="481.0" layoutY="10.0" prefHeight="518.0" prefWidth="455.0" style="-fx-background-color: white;" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <Label fx:id="LbCIN1" layoutX="15.0" layoutY="12.0" prefHeight="20.0" prefWidth="178.0" text="Date Depart :" AnchorPane.leftAnchor="32.0" />
+                              <DatePicker layoutX="55.0" layoutY="40.0" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="32.0" />
+                              <Label fx:id="LbCIN11" layoutX="35.0" layoutY="82.0" prefHeight="20.0" prefWidth="178.0" text="Date Retour :" />
+                              <DatePicker layoutX="35.0" layoutY="110.0" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="32.0" />
+                              <ComboBox layoutX="32.0" layoutY="180.0" prefWidth="150.0" promptText="sélectionner une voiture" style="-fx-background-color: whitesmoke;" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="32.0" />
+                              <Label fx:id="LbCIN111" layoutX="35.0" layoutY="152.0" prefHeight="20.0" prefWidth="178.0" text="Véhicule" AnchorPane.leftAnchor="32.0" />
+                              <Button layoutX="24.0" layoutY="247.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="398.0" style="-fx-background-color: green;" styleClass="btn" stylesheets="@../../../Styles/style.css" text="valider et enregistrer" textFill="WHITE" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="32.0">
+                                 <font>
+                                    <Font name="Century Gothic Bold" size="15.0" />
+                                 </font>
+                              </Button>
+                              <Button layoutX="28.0" layoutY="315.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="398.0" style="-fx-background-color: tomato;" styleClass="btn" stylesheets="@../../../Styles/style.css" text="annuler" textFill="WHITE" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="32.0">
+                                 <font>
+                                    <Font name="Century Gothic Bold" size="15.0" />
+                                 </font>
+                              </Button>
+                           </children></AnchorPane>
+                        <AnchorPane fx:id="ClientInfoSide" prefHeight="518.0" prefWidth="470.0" style="-fx-background-color: White;" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <TextField fx:id="TxtCIN" layoutX="32.0" layoutY="40.0" promptText="CIN" style="-fx-background-color: whitesmoke; -fx-border-color: gray; -fx-background-radius: 6px; -fx-border-radius: 6px;" AnchorPane.leftAnchor="32.0" />
+                              <TextField fx:id="TxtNPermis" layoutX="255.0" layoutY="40.0" promptText="N° Permis" style="-fx-background-color: whitesmoke; -fx-border-color: gray; -fx-background-radius: 6px; -fx-border-radius: 6px;" AnchorPane.rightAnchor="32.0" />
+                              <TextField fx:id="TxtNom" layoutX="32.0" layoutY="110.0" promptText="Nom" style="-fx-background-color: whitesmoke; -fx-border-color: gray; -fx-background-radius: 6px; -fx-border-radius: 6px;" AnchorPane.leftAnchor="32.0" />
+                              <TextField fx:id="TxtPrenom" layoutX="258.4" layoutY="110.0" promptText="Prénom" style="-fx-background-color: whitesmoke; -fx-border-color: gray; -fx-background-radius: 6px; -fx-border-radius: 6px;" AnchorPane.rightAnchor="32.0" />
+                              <TextField fx:id="TxtAdresse" layoutX="32.0" layoutY="180.0" promptText="Adresse" style="-fx-background-color: whitesmoke; -fx-border-color: gray; -fx-background-radius: 6px; -fx-border-radius: 6px;" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="32.0" />
+                              <TextField fx:id="TxtEmail" layoutX="32.0" layoutY="249.0" promptText="Email" style="-fx-background-color: whitesmoke; -fx-border-color: gray; -fx-background-radius: 6px; -fx-border-radius: 6px;" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="32.0" />
+                              <TextField fx:id="TxtTel" layoutX="32.0" layoutY="319.0" promptText="Tel" style="-fx-background-color: whitesmoke; -fx-border-color: gray; -fx-background-radius: 6px; -fx-border-radius: 6px;" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="32.0" />
+                              <Label fx:id="LbCIN" layoutX="33.0" layoutY="12.0" prefHeight="20.0" prefWidth="178.0" text="CIN :" AnchorPane.leftAnchor="32.0" />
+                              <Label fx:id="LbPERMIS" layoutX="263.0" layoutY="12.0" prefHeight="20.0" prefWidth="178.0" text="N° PERMIS :" AnchorPane.rightAnchor="32.0" />
+                              <Label fx:id="LbNom" layoutX="33.0" layoutY="82.0" prefHeight="20.0" prefWidth="178.0" text="Nom :" AnchorPane.leftAnchor="32.0" />
+                              <Label fx:id="LbPrenom" layoutX="263.0" layoutY="82.0" prefHeight="20.0" prefWidth="178.0" text="Prénom :" AnchorPane.rightAnchor="32.0" />
+                              <Label fx:id="LbAdresse" layoutX="33.0" layoutY="152.0" prefHeight="20.0" prefWidth="178.0" text="Adresse :" AnchorPane.leftAnchor="32.0" />
+                              <Label fx:id="LbEmail" layoutX="33.0" layoutY="222.0" prefHeight="20.0" prefWidth="178.0" text="Email :" AnchorPane.leftAnchor="32.0" />
+                              <Label fx:id="LbTel" layoutX="33.0" layoutY="292.0" prefHeight="20.0" prefWidth="178.0" text="Télephone :" AnchorPane.leftAnchor="32.0" />
+                           </children>
+                        </AnchorPane>
+                     </children></AnchorPane>
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+   <padding>
+      <Insets top="25.0" />
+   </padding>
+</AnchorPane>

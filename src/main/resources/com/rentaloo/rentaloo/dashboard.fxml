@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="DashboardPane" prefHeight="601.0" prefWidth="922.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rentaloo.rentaloo.Dashboard">
+   <children>
+      <VBox fx:id="SiderPane" layoutX="1.0" prefHeight="601.0" prefWidth="175.0" styleClass="SiderPane" stylesheets="@../../../Styles/style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label fx:id="titleLabelSider" alignment="CENTER" contentDisplay="CENTER" prefHeight="138.0" prefWidth="175.0" text="Car Rental" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP" wrapText="true">
+               <font>
+                  <Font name="Century Gothic Bold" size="23.0" />
+               </font>
+            </Label>
+            <VBox fx:id="SiderPane1" prefHeight="402.0" prefWidth="175.0">
+               <children>
+                  <Button fx:id="TableauBordbtn" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="38.0" prefWidth="175.0" styleClass="ActiveDashBtn" stylesheets="@../../../Styles/style.css" text="Tableau bord" textAlignment="CENTER">
+                     <font>
+                        <Font name="Century Gothic Bold" size="15.0" />
+                     </font>
+                     <padding>
+                        <Insets left="20.0" right="20.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets top="2.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="reservationBTN" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="38.0" prefWidth="175.0" styleClass="DashBtn" stylesheets="@../../../Styles/style.css" text="Réservations" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="Century Gothic Bold" size="15.0" />
+                     </font>
+                     <padding>
+                        <Insets left="20.0" right="20.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets top="2.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="carBTN" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="38.0" prefWidth="175.0" styleClass="DashBtn" stylesheets="@../../../Styles/style.css" text="Véhicules" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="Century Gothic Bold" size="15.0" />
+                     </font>
+                     <padding>
+                        <Insets left="20.0" right="20.0" />
+                     </padding>
+                  </Button>
+                  <Button fx:id="clientBTN" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="38.0" prefWidth="175.0" styleClass="DashBtn" stylesheets="@../../../Styles/style.css" text="Clients" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="Century Gothic Bold" size="15.0" />
+                     </font>
+                     <padding>
+                        <Insets left="20.0" right="20.0" />
+                     </padding>
+                  </Button>
+               </children>
+            </VBox>
+            <VBox fx:id="SiderPane2" prefHeight="62.0" prefWidth="175.0">
+               <children>
+                  <Button fx:id="deconexionBTN" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="65.0" prefWidth="177.0" styleClass="deconnexionBtn" text="se déconnecter">
+                     <font>
+                        <Font name="Century Gothic Bold" size="15.0" />
+                     </font>
+                     <padding>
+                        <Insets left="20.0" right="20.0" />
+                     </padding>
+                  </Button>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+      <AnchorPane fx:id="ContentPane" layoutX="175.0" layoutY="33.0" prefHeight="568.0" prefWidth="747.0" styleClass="ContentPane" stylesheets="@../../../Styles/style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="33.0" />
+      <AnchorPane fx:id="TopContentPane" prefHeight="26.0" prefWidth="747.0" styleClass="TopContentPane" stylesheets="@../../../Styles/style.css" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label fx:id="DateTimeLabel" layoutX="-1.0" layoutY="-1.0" prefHeight="38.0" prefWidth="280.0" text="03/05/2023" textOverrun="CLIP" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="-1.0">
+               <font>
+                  <Font name="Century Gothic Bold" size="15.0" />
+               </font>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </Label>
+            <Button fx:id="NotificationBtn" mnemonicParsing="false" prefHeight="26.0" prefWidth="40.0" style="-fx-background-color: transparent;" styleClass="NotificationBtn" text="Button" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

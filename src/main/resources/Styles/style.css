@@ -1,0 +1,134 @@
+
+
+.login1{
+    -fx-background-color:rgba(0,0,0,0.5);
+    -fx-background-radius:10px;
+}
+
+.loginPanel{
+    -fx-border-color:orange;
+}
+
+.connectionBtn{
+-fx-background-color:green;
+-fx-cursor:Hand;
+}
+.connectionBtn:hover{
+-fx-background-color:#539165;
+}
+
+.exitBtn{
+-fx-background-color:#DF2E38;
+-fx-cursor:Hand;
+
+}
+.exitBtn:hover{
+-fx-background-color:red;
+}
+
+
+
+/*Dashboard Style*/
+
+/*#imgDashboard {
+    -fx-background-color: transparent;
+    -fx-background-radius: 50%;
+    -fx-background-insets: 0;
+    -fx-shape: "M 0 0 H 400 V 400 H 0 Z";
+    -fx-scale-shape: true;
+}*/
+
+.SiderPane{
+    -fx-background-color:#ad7bff;
+}
+.DashBtn{
+    -fx-background-color:transparent;
+    -fx-background-radius:0px;
+    -fx-text-fill:white;
+    -fx-cursor:hand;
+}
+.DashBtn:hover{
+    -fx-background-color:#afb4ff;
+}
+
+.ActiveDashBtn{
+    -fx-background-color:#afb4ff;
+    -fx-border-color:transparent transparent transparent transparent;
+    /*-fx-border-width:0 0 0 5px;*/
+    -fx-background-radius:0px;
+    -fx-text-fill:white;
+    -fx-cursor:Hand;
+}
+
+.deconnexionBtn{
+    -fx-background-color:transparent;
+    -fx-text-fill:white;
+    -fx-cursor:hand;
+}
+.deconnexionBtn:hover{
+    -fx-background-color:tomato;
+}
+
+.ContentPane{
+    -fx-background-color:white;
+}
+
+.NotificationBtn{
+    -fx-border:none;
+    -fx-background-color:transparent;
+-fx-cursor:hand;
+}
+
+.TopContentPane{
+    -fx-background-color:white;
+}
+
+
+
+/*********************************************************/
+
+
+.StatsItem{
+    -fx-background-color:whitesmoke;
+    -fx-background-radius:10px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 5, 0.0, 2, 2);
+}
+
+.chartContent{
+    -fx-background-color:whitesmoke;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 5, 0.0, 2, 2);
+    -fx-background-radius:10px;
+}
+
+.default-color0.chart-bar { -fx-bar-fill: #ad7bff }
+.default-color1.chart-bar { -fx-bar-fill: purple }
+
+.tableContent{
+    -fx-background-color:whitesmoke;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 5, 0.0, 2, 2);
+    -fx-background-radius:10px;
+}
+
+.table-cell {
+    -fx-font-size: 16px;
+}
+
+.tab-pane {
+    -fx-font-size: 16px; /* set the font size to 14 pixels */
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: white;
+}
+.tab-pane .tab{
+    -fx-background-color:whitesmoke;
+    -fx-cursor:hand;
+}
+.tab-pane .tab:selected{
+    -fx-background-color: #ad7bff;
+    -fx-text-fill:white;
+}
+
+.btn{
+    -fx-cursor:hand;
+}

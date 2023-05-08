@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="StatsPane" prefHeight="609.0" prefWidth="880.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rentaloo.rentaloo.StatsController">
+   <children>
+      <HBox fx:id="StatsContainer" fillHeight="false" prefHeight="122.0" prefWidth="600.0" spacing="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox fx:id="statsContainer1" alignment="CENTER" prefHeight="122.0" prefWidth="200.0">
+               <children>
+                  <AnchorPane fx:id="StatsItem1" prefHeight="75.0" prefWidth="197.0" styleClass="StatsItem" stylesheets="@../../../Styles/style.css">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <children>
+                        <AnchorPane fx:id="StatsItem1img" prefHeight="75.0" prefWidth="69.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <Label fx:id="StatsItem1title" alignment="CENTER" contentDisplay="CENTER" layoutX="76.0" layoutY="-1.0" prefHeight="34.0" prefWidth="103.0" text="Title" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <font>
+                              <Font name="Century Gothic Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="StatsItem1value" alignment="CENTER" contentDisplay="CENTER" layoutX="76.0" layoutY="41.0" prefHeight="34.0" prefWidth="103.0" text="Title" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                           <font>
+                              <Font name="Century Gothic Bold Italic" size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+               </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <padding>
+                  <Insets bottom="20.0" left="10.0" right="10.0" top="20.0" />
+               </padding>
+            </VBox>
+            <VBox fx:id="statsContainer2" alignment="CENTER" prefHeight="122.0" prefWidth="218.0">
+               <children>
+                  <AnchorPane fx:id="StatsItem2" prefHeight="75.0" prefWidth="197.0" styleClass="StatsItem" stylesheets="@../../../Styles/style.css">
+                     <children>
+                        <AnchorPane fx:id="StatsItem2img" prefHeight="75.0" prefWidth="69.0" />
+                        <Label fx:id="StatsItem2value" alignment="CENTER" contentDisplay="CENTER" layoutX="111.0" layoutY="38.0" prefHeight="34.0" prefWidth="103.0" text="Title" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                           <font>
+                              <Font name="Century Gothic Bold Italic" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="StatsItem2title" alignment="CENTER" contentDisplay="CENTER" layoutX="115.0" layoutY="2.0" prefHeight="34.0" prefWidth="103.0" text="Title" textAlignment="CENTER" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <font>
+                              <Font name="Century Gothic Bold" size="18.0" />
+                           </font>
+                        </Label>
+                     </children></AnchorPane>
+               </children>
+               <padding>
+                  <Insets bottom="20.0" left="10.0" right="10.0" top="20.0" />
+               </padding>
+            </VBox>
+            <VBox fx:id="statsContainer3" alignment="CENTER" prefHeight="122.0" prefWidth="218.0">
+               <children>
+                  <AnchorPane fx:id="StatsItem3" prefHeight="75.0" prefWidth="197.0" styleClass="StatsItem" stylesheets="@../../../Styles/style.css">
+                     <children>
+                        <AnchorPane fx:id="StatsItem3img" layoutX="10.0" prefHeight="75.0" prefWidth="69.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <Label fx:id="StatsItem3title" alignment="CENTER" contentDisplay="CENTER" layoutX="86.0" layoutY="-1.0" prefHeight="34.0" prefWidth="103.0" text="Title" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <font>
+                              <Font name="Century Gothic Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="StatsItem3value" alignment="CENTER" contentDisplay="CENTER" layoutX="86.0" layoutY="41.0" prefHeight="34.0" prefWidth="103.0" text="Title" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                           <font>
+                              <Font name="Century Gothic Bold Italic" size="24.0" />
+                           </font>
+                        </Label>
+                     </children></AnchorPane>
+               </children>
+               <padding>
+                  <Insets bottom="20.0" left="10.0" right="10.0" top="20.0" />
+               </padding>
+            </VBox>
+         </children>
+      </HBox>
+      <AnchorPane fx:id="ContentStatsPane" layoutY="127.0" prefHeight="491.0" prefWidth="880.0" style="-fx-bar-fill: red;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <AnchorPane fx:id="chartContentState" layoutX="7.0" layoutY="7.0" prefHeight="254.0" prefWidth="696.0" styleClass="chartContent" stylesheets="@../../../Styles/style.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <BarChart fx:id="ChartItem" layoutX="41.0" layoutY="37.0" prefHeight="215.0" prefWidth="348.0" stylesheets="@../../../Styles/style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <xAxis>
+                      <CategoryAxis side="BOTTOM" />
+                    </xAxis>
+                    <yAxis>
+                      <NumberAxis side="LEFT" />
+                    </yAxis>
+                  </BarChart>
+               </children></AnchorPane>
+            <TableView fx:id="tableLastRent" cache="true" cacheHint="QUALITY" layoutX="14.0" layoutY="270.0" prefHeight="200.0" prefWidth="200.0" styleClass="tableContent" stylesheets="@../../../Styles/style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <padding>
+                  <Insets bottom="10.0" />
+               </padding>
+            </TableView>
+         </children>
+         <padding>
+            <Insets left="10.0" right="10.0" top="10.0" />
+         </padding></AnchorPane>
+   </children>
+</AnchorPane>
