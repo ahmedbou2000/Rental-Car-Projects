@@ -162,7 +162,7 @@ const Navbar = () => {
           </a>
         </div>
       </Modal>
-      {/************************* Login Modal *********************/}
+      {/************************* Login & SignUp Modal *********************/}
       <Modal open={LoginOpen} className="center">
         <div
           className={`loginModel ${

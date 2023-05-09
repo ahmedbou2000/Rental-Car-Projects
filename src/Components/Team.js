@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material";
 import TeamItem from "./TeamItem";
 import theImage from "../assets/images/112.png";
-import theSecondImg from "../assets/images/8.jpg"
+import theSecondImg from "../assets/images/ahmed.jpg"
 
 const Team = () => {
   return (
@@ -34,7 +34,7 @@ const Team = () => {
             Img={theSecondImg}
             Email="bouguerbaahmed06@gmail.com"
             userLinkedin={"ahmed-bouguerba-48107226a"}
-            userFacebook={""}
+            userFacebook={"profile.php?id=100009354637654"}
           />
         </Grid>
       </Grid>

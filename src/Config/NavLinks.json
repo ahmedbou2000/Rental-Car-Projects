@@ -10,14 +10,14 @@
     "href": "#comment"
   },
   {
-    "label": "Témoignages",
-    "to": "/",
-    "href": "#testimonials"
-  },
-  {
     "label": "Equipe",
     "to": "/",
     "href": "#equipe"
+  },
+  {
+    "label": "Témoignages",
+    "to": "/",
+    "href": "#testimonials"
   },
   {
     "label": "Contact",

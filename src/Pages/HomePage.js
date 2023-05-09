@@ -49,9 +49,9 @@ const HomePage = () => {
           <HeroContent />
         </div>
         <Plans />
-        <Testimonials/>
         <CarShow/>
         <Team/>
+        <Testimonials/>
         <Contact/>
         <Footer/>
       </Content>
