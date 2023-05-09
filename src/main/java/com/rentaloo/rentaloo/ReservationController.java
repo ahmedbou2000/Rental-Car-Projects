@@ -1,14 +1,22 @@
 package com.rentaloo.rentaloo;
 
+import DbContext.DbContext;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 
+import java.io.File;
 import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ReservationController implements Initializable {
@@ -16,11 +24,14 @@ public class ReservationController implements Initializable {
     @FXML
     private TableView RentalListTable, ReservationListTable;
     @FXML
-    private AnchorPane ReservationInfoSide,ClientInfoSide,AddLocationContainer;
+    private AnchorPane ReservationInfoSide, ClientInfoSide, AddLocationContainer;
     @FXML
-    TextField TxtNom,TxtPrenom,TxtAdresse,TxtEmail,TxtCIN,TxtNPermis;
+    TextField TxtNom, TxtPrenom, TxtAdresse, TxtEmail, TxtCIN, TxtNPermis;
     @FXML
-    Label LbPERMIS,LbPrenom;
+    Label LbPERMIS, LbPrenom;
+
+    @FXML
+    Button btnAojuterResevation;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -28,7 +39,27 @@ public class ReservationController implements Initializable {
         ConfigureReservationListTable();
         Resize();
 
+//        try {
+//        } catch (ClassNotFoundException e) {
+//            System.out.println("Connection Failed");
+//            throw new RuntimeException(e);
+//        }
+        btnAojuterResevation.setOnAction(event -> {
 
+            String nom = "";
+            ResultSet rs = null;
+            try {
+                rs = DbContext.Execute("select * from client");
+                while (rs.next()) {
+                    nom = rs.getString("PRENOM");
+                    HelloApplication.InformationAlert("", "", nom);
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+
+        });
     }
 
 
@@ -71,7 +102,7 @@ public class ReservationController implements Initializable {
         ));
     }
 
-//this method is a  configuration for Reservation List Table
+    //this method is a  configuration for Reservation List Table
     public void ConfigureReservationListTable() {
         TableColumn<ReservationModel, String> immatCol = new TableColumn<>("Immatricule");
         immatCol.setCellValueFactory(new PropertyValueFactory<>("Immatricule"));
@@ -94,28 +125,27 @@ public class ReservationController implements Initializable {
         DateRetour.prefWidthProperty().bind(ReservationListTable.widthProperty().divide(5));
 
 
-
         ReservationListTable.getColumns().clear();
         ReservationListTable.getColumns().addAll(immatCol, Nom, Prenom, DateDepart, DateRetour);
 
         ReservationListTable.setItems(FXCollections.observableArrayList(
-                new ReservationModel(1,"12345-A-49", "BOUKHRISS", "MOHAMED", "01/05/2023", "12/05/2023"),
-                new ReservationModel(2,"12345-A-49", "BOUKHRISS", "MOHAMED", "01/05/2023", "12/05/2023"),
-                new ReservationModel(3,"12345-A-49", "BOUKHRISS", "MOHAMED", "01/05/2023", "12/05/2023")
+                new ReservationModel(1, "12345-A-49", "BOUKHRISS", "MOHAMED", "01/05/2023", "12/05/2023"),
+                new ReservationModel(2, "12345-A-49", "BOUKHRISS", "MOHAMED", "01/05/2023", "12/05/2023"),
+                new ReservationModel(3, "12345-A-49", "BOUKHRISS", "MOHAMED", "01/05/2023", "12/05/2023")
         ));
 
 
         //Mouse Click Event
-        ReservationListTable.setOnMouseClicked(event->{
-            if(event.getButton()== MouseButton.SECONDARY){
-                ReservationModel mdl = ((ReservationModel)ReservationListTable.getSelectionModel().getSelectedItem());
-                HelloApplication.ConfirmationAlert("Confirmation","Confirmer la réservation",String.format("%s %s a effectué une demande de reservation\ndu véhicule sous immatricule %s\ndu %s à %s ",mdl.Prenom,mdl.Nom,mdl.Immatricule,mdl.DateDepart,mdl.DateRetour));
+        ReservationListTable.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.SECONDARY) {
+                ReservationModel mdl = ((ReservationModel) ReservationListTable.getSelectionModel().getSelectedItem());
+                HelloApplication.ConfirmationAlert("Confirmation", "Confirmer la réservation", String.format("%s %s a effectué une demande de reservation\ndu véhicule sous immatricule %s\ndu %s à %s ", mdl.Prenom, mdl.Nom, mdl.Immatricule, mdl.DateDepart, mdl.DateRetour));
             }
         });
     }
 
     //This method is for resizing all Controlls
-    public void Resize(){
+    public void Resize() {
         ClientInfoSide.prefWidthProperty().bind(AddLocationContainer.widthProperty().divide(2));
         ReservationInfoSide.prefWidthProperty().bind(AddLocationContainer.widthProperty().divide(2));
         TxtNom.prefWidthProperty().bind(ClientInfoSide.widthProperty().multiply(0.43));
@@ -136,8 +166,7 @@ public class ReservationController implements Initializable {
         private String DateRetour;
 
 
-
-        public ReservationModel(int idReservation ,String immat, String nom, String prenom, String dateDepart, String dateRetour) {
+        public ReservationModel(int idReservation, String immat, String nom, String prenom, String dateDepart, String dateRetour) {
             this.IdReservation = idReservation;
             this.Immatricule = immat;
             this.Nom = nom;

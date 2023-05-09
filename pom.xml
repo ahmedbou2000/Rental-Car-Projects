@@ -69,6 +69,12 @@
       <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>com.github.waffle</groupId>
+      <artifactId>waffle-jna</artifactId>
+      <version>3.3.0</version>
+    </dependency>
+
 
 
 

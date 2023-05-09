@@ -180,14 +180,14 @@ public class Dashboard implements Initializable {
                 case 2:
                     try {
                         ShowComponent("vehicules.fxml");
-                    } catch (Exception ex) {
-                        System.out.println(ex.getLocalizedMessage());
+                    } catch (IOException ex) {
+                        System.out.println(ex.getMessage());
                     }
                     break;
                 case 3:
                     try {
                         ShowComponent("clients.fxml");
-                    } catch (Exception ex) {
+                    } catch (IOException ex) {
                         System.out.println(ex.getLocalizedMessage());
                     }
                     break;

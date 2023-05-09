@@ -7,7 +7,9 @@ module com.rentaloo.rentaloo {
             requires com.dlsc.formsfx;
                     requires org.kordamp.bootstrapfx.core;
             requires eu.hansolo.tilesfx;
-        
+    requires java.sql;
+    requires org.mariadb.jdbc;
+
     opens com.rentaloo.rentaloo to javafx.fxml;
     exports com.rentaloo.rentaloo;
 }
