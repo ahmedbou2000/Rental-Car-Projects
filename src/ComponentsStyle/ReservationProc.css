@@ -1,0 +1,22 @@
+.flash{
+
+    transition: .3s ease-in-out;
+    animation: flash 2s ease-in-out infinite;
+}
+
+@keyframes flash {
+    0%{opacity: 0;color:blue}
+    50%{opacity: 1;color:orange}
+    100%{opacity: 0;color:blue}
+
+}
+
+.car-div-show{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.reservationProcContent{
+    overflow-y: scroll;
+}

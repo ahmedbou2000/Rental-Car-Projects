@@ -3,10 +3,24 @@ import "../ComponentsStyle/ReservationPanel.css";
 import book_bg from "../assets/images/book-bg.png";
 import { DatePicker } from "antd";
 import { useEffect, useState } from "react";
+import {Modal} from "@mui/material";
+import { Sling as Hamburger } from "hamburger-react";
 import $ from "jquery";
+import ReservationProc from "./ReservationProc";
+import moment from "moment/moment";
+
 const ReservationPanel = () => {
+
+function disabledDate(current) {
+  // Disable dates before today
+  return current && current < moment().startOf('day');
+}
+
   const { RangePicker } = DatePicker;
   const [ismobile, setIsmobile] = useState(localStorage.getItem("isMobile"));
+  const [isReservationOpen, setReservationOpen] = useState(false);
+  const [DepartDate,setDepart] = useState("")
+  const [RetourDate,setRetour]=useState("");
   useEffect(() => {
     $(window).on("resize", () => {
       setIsmobile(localStorage.getItem("isMobile"));
@@ -46,11 +60,13 @@ const ReservationPanel = () => {
                   <DatePicker
                     placeholder="date départ"
                     className="w-100 my-1"
+                    disabledDate={disabledDate}
                     size="large"
                   />
                   <DatePicker
                     placeholder="date arrivée"
                     className="w-100 my-1"
+                    disabledDate={disabledDate}
                     size="large"
                   />
                 </div>
@@ -58,6 +74,11 @@ const ReservationPanel = () => {
                 <RangePicker
                   className="theDatePicker w-100"
                   placeholder={["date départ", "date arrivée"]}
+                  disabledDate={disabledDate}
+                  onChange={(date, datestring) => {
+                    setDepart(`${date[0].$y}-${date[0].$M + 1}-${date[0].$D}`);
+                    setRetour(`${date[1].$y}-${date[1].$M + 1}-${date[1].$D}`);
+                  }}
                 />
               )}
             </Grid>
@@ -67,6 +88,10 @@ const ReservationPanel = () => {
                 className={`btn-reserver shadow w-100 ${
                   ismobile === "true" ? "my-2" : ""
                 }`}
+                onClick={() => {
+                  console.log(DepartDate, RetourDate);
+                  setReservationOpen(!isReservationOpen);
+                }}
               >
                 Réserver
               </Button>
@@ -74,6 +99,28 @@ const ReservationPanel = () => {
           </Grid>
         </Grid>
       </Grid>
+      {/*******************************    Reservation modal   *****************************/}
+      <Modal open={isReservationOpen} className="center">
+        <div
+          className={`loginModel w-100 h-100 shadow rounded`}
+          style={{ backgroundColor: "whitesmoke" }}
+        >
+          <div
+            className="w-100 d-flex justify-content-end align-items-center "
+            style={{ height: "10%" }}
+          >
+            <Hamburger
+              onToggle={() => {
+                setReservationOpen(!isReservationOpen);
+              }}
+              toggled={isReservationOpen}
+            />
+          </div>
+          <div style={{ height: "90%" }} className="container w-100 ">
+            <ReservationProc Depart={""} Retour={""} />
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };

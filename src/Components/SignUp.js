@@ -7,10 +7,10 @@ const SignUp = () => {
     const [pwd2,setPwd2]  = useState("")
 
 
-    const EmptyAll =()=>{
-        setPwd("");
-        setPwd2("");
-    }
+    // const EmptyAll =()=>{
+    //     setPwd("");
+    //     setPwd2("");
+    // }
   return (
     <div className="w-100 h-100   d-flex flex-column justify-content-center align-items-center">
       <h1 className="Poppins w-100  text-center f-20 mt-3">inscrivez-vous</h1>
@@ -54,7 +54,7 @@ const SignUp = () => {
             type="password"
             size="small"
             value={pwd}
-            error={pwd != pwd2} 
+            error={pwd !== pwd2} 
             onChange={(e) => setPwd(e.target.value)}
           />
           <TextField
@@ -65,7 +65,7 @@ const SignUp = () => {
             size="small"
             value={pwd2}
             onChange={(e) => setPwd2(e.target.value)}
-            error={pwd != pwd2}
+            error={pwd !== pwd2}
           />
           <div className="w-100">
             <FormControlLabel

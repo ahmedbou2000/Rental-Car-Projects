@@ -62,3 +62,6 @@ code {
 .GreyColor {
   color: #65676a;
 }
+.text_right{
+  text-align: right;
+}

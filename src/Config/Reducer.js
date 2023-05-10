@@ -10,7 +10,8 @@ const initialState = {
   color: "#000",
   bgcolor: "#efefef",
   selectedtestimonial:0,
-  selectedCar:"mercedes"
+  selectedCar:"mercedes",
+  isLoading:false
 };
 
 checkMobile();
@@ -23,7 +24,7 @@ const Reducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         selectedtestimonial:
-          state.selectedtestimonial +1>1?1:state.selectedtestimonial +1,
+          state.selectedtestimonial + 1 > 1 ? 1 : state.selectedtestimonial + 1,
       };
     case "previous-testimonial":
       // console.log("handle Previous Dispatch");
@@ -32,8 +33,10 @@ const Reducer = (state = initialState, { type, payload }) => {
         selectedtestimonial:
           state.selectedtestimonial - 1 < 0 ? 0 : state.selectedtestimonial - 1,
       };
-      case "carModel":
-        return { ...state, selectedCar :payload};
+    case "carModel":
+      return { ...state, selectedCar: payload };
+    case "loading":
+      return { ...state, isLoading:!state.isLoading};
     default:
       return { ...state };
   }

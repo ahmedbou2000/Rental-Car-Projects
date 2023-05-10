@@ -1,5 +1,7 @@
+import React from "react";
+
 import "../ComponentsStyle/Navbar.css";
-import { Button, Grid, Modal } from "@mui/material";
+import { Button, Divider, Grid, Modal } from "@mui/material";
 import Logo from "../assets/images/logo.png";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -17,6 +19,8 @@ const Navbar = () => {
   const state = useSelector((state) => state);
   const linkStyle = {
     color: state.color,
+    backgroundColor:"transparent",
+    border:"none"
   };
   useEffect(() => {
     $(window)
@@ -125,20 +129,22 @@ const Navbar = () => {
           </span>
           {links.map((link, index) => (
             // <span className="w-100 my-1 text-center navItemMobile">
-            <a
-              key={index}
-              href={link.href}
-              style={linkStyle}
-              className="w-100  my-1 Rubik text-capitalize link text-center navItemMobile"
-              onClick={() => {
-                setNavOpen(!NavOpen);
-              }}
-            >
-              {link.label}
-            </a>
+            <React.StrictMode key={index}>
+              <a
+                href={link.href}
+                style={linkStyle}
+                className="w-100  my-1 Rubik text-capitalize link text-center navItemMobile"
+                onClick={() => {
+                  setNavOpen(!NavOpen);
+                }}
+              >
+                {link.label}
+              </a>
+              <Divider  className="w-100" />
+            </React.StrictMode>
             // </span>
           ))}
-          <a
+          <button
             style={linkStyle}
             className="w-100  my-1 Rubik text-capitalize link text-center navItemMobile Hand"
             onClick={() => {
@@ -148,8 +154,9 @@ const Navbar = () => {
             }}
           >
             se connecter
-          </a>
-          <a
+          </button>
+          <Divider className="w-100" />
+          <button
             style={linkStyle}
             className="w-100  my-1 Rubik text-capitalize link text-center navItemMobile Hand"
             onClick={() => {
@@ -159,7 +166,7 @@ const Navbar = () => {
             }}
           >
             s'enregistrer
-          </a>
+          </button>
         </div>
       </Modal>
       {/************************* Login & SignUp Modal *********************/}

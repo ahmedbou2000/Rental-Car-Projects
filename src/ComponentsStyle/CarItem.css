@@ -1,0 +1,33 @@
+.search-item-image{
+    position: relative;
+    width: 100%;
+    object-fit: contain;
+    background-attachment: scroll;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    pointer-events: none;
+}
+.carItem{
+    transition: .3s ease-in-out;
+    animation: fade .8s ease-in-out;
+}
+@keyframes fade {
+    
+    0%{
+        opacity: 0;
+    }
+    50%{
+        transform: scale(1.2);
+    }
+    100%{
+        opacity:1;
+        transform: scale(1);
+        
+    }
+}
+
+.carItem:hover{
+    transition: .3s ease-in-out;
+    transform: scale(1.1);
+}
