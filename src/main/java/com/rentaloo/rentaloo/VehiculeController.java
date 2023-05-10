@@ -47,7 +47,7 @@ public class VehiculeController implements Initializable {
     @FXML
     private TextField txtImmat, txtMarque, txtModel, txtAnnee;
 
-    private String DefaultImagePath = "C:\\Users\\ThinkPad\\Desktop\\car images\\carVector.png";
+    private String DefaultImagePath = getClass().getResource("/Images/carVector.png").toString();
     private String selectedImage = "";
 
     private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
