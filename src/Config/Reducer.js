@@ -12,7 +12,7 @@ const initialState = {
   selectedtestimonial:0,
   selectedCar:"mercedes",
   isLoading:false,
-  isLogged:true
+  isLogged:false
 };
 
 checkMobile();

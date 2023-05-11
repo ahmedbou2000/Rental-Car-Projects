@@ -206,7 +206,19 @@ const Navbar = () => {
             />
           </div>
           <div style={{ height: "90%" }} className="w-100 ">
-            {isLogin ? <Login /> : <SignUp />}
+            {isLogin ? (
+              <Login
+                closeModal={() => {
+                  setLoginOpen(false);
+                }}
+              />
+            ) : (
+              <SignUp
+                closeModal={() => {
+                  setLoginOpen(false);
+                }}
+              />
+            )}
           </div>
         </div>
       </Modal>

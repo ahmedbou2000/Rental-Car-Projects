@@ -1,9 +1,15 @@
 import { Button, Checkbox, FormControlLabel, Grid, TextField } from "@mui/material";
 import "../ComponentsStyle/Login.css";
+import { useDispatch } from "react-redux";
+
+const Login = (props) => {
+  const dispatch = useDispatch();
+const HandleLogin = ()=>{
+  dispatch({type:"login",payload:true})
+  props.closeModal();
+}
 
 
-const Login = () => {
-    
   return (
     <div className="w-100 h-100  d-flex flex-column justify-content-center align-items-center">
       <h1 className="Poppins w-100  text-center f-20 mt-3">
@@ -42,7 +48,7 @@ const Login = () => {
               control={<Checkbox />}
             />
           </div>
-          <Button variant="contained" className="Poppins w-100 bg-success my-4" size='large'>se connecter</Button>
+          <Button variant="contained" className="Poppins w-100 bg-success my-4" size='large' onClick={HandleLogin}>se connecter</Button>
         </Grid>
       </Grid>
     </div>
