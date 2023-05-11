@@ -1,0 +1,10 @@
+.userProfile .nextui-avatar-bg {
+  background-color: #ff4d30;
+  cursor: pointer !important;
+}
+.userProfile .nextui-avatar-text {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  color: white;
+  cursor: pointer !important;
+}

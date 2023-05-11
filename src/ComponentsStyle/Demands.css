@@ -1,0 +1,14 @@
+.badge_container .nextui-badge{
+    width:130px;
+    font-size: 15px;
+}
+.opacityanimation{
+    transition: .9s ease-in-out;
+    animation:ChangeOpacity .9s ease-in-out;
+}
+
+@keyframes ChangeOpacity{
+    0%{transform: scale(0.1);}
+    50%{transform: scale(1.09);}
+    100%{transform: scale(1);}
+}

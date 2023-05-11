@@ -10,6 +10,7 @@ import links from "../Config/NavLinks.json";
 import { Sling as Hamburger } from "hamburger-react";
 import Login from "./Login";
 import SignUp from "./SignUp";
+import LoggedProfile from "./LoggedProfile";
 const Navbar = () => {
   const [showNavbg, setShowedNav] = useState($(window).scrollTop() > 50);
   const [ismobile, setIsmobile] = useState(localStorage.getItem("isMobile"));
@@ -19,8 +20,8 @@ const Navbar = () => {
   const state = useSelector((state) => state);
   const linkStyle = {
     color: state.color,
-    backgroundColor:"transparent",
-    border:"none"
+    backgroundColor: "transparent",
+    border: "none",
   };
   useEffect(() => {
     $(window)
@@ -34,6 +35,10 @@ const Navbar = () => {
         setIsmobile(localStorage.getItem("isMobile"));
       });
   }, []);
+  //cette methode est pour fermer le modal  quand on choisit une option de LoggedProfile
+  const CloseModal = () => {
+    setNavOpen(!NavOpen);
+  };
 
   return (
     <div
@@ -75,27 +80,33 @@ const Navbar = () => {
               lg={3}
               className="h-100 end-column"
             >
-              <Button
-                variant="text"
-                style={{ color: "black", height: "50px" }}
-                onClick={() => {
-                  setLoginOpen(true);
-                  setIsLogin(true);
-                }}
-              >
-                se connecter
-              </Button>
-              <Button
-                variant="contained"
-                className="shadow ms-3"
-                style={{ backgroundColor: "#ff4d30", height: "50px" }}
-                onClick={() => {
-                  setLoginOpen(true);
-                  setIsLogin(false);
-                }}
-              >
-                s'enregistrer
-              </Button>
+              {!state.isLogged ? (
+                <>
+                  <Button
+                    variant="text"
+                    style={{ color: "black", height: "50px" }}
+                    onClick={() => {
+                      setLoginOpen(true);
+                      setIsLogin(true);
+                    }}
+                  >
+                    se connecter
+                  </Button>
+                  <Button
+                    variant="contained"
+                    className="shadow ms-3"
+                    style={{ backgroundColor: "#ff4d30", height: "50px" }}
+                    onClick={() => {
+                      setLoginOpen(true);
+                      setIsLogin(false);
+                    }}
+                  >
+                    s'enregistrer
+                  </Button>
+                </>
+              ) : (
+                <LoggedProfile />
+              )}
             </Grid>
           </>
         ) : (
@@ -140,33 +151,39 @@ const Navbar = () => {
               >
                 {link.label}
               </a>
-              <Divider  className="w-100" />
+              <Divider className="w-100" />
             </React.StrictMode>
             // </span>
           ))}
-          <button
-            style={linkStyle}
-            className="w-100  my-1 Rubik text-capitalize link text-center navItemMobile Hand"
-            onClick={() => {
-              setNavOpen(!NavOpen);
-              setLoginOpen(true);
-              setIsLogin(true);
-            }}
-          >
-            se connecter
-          </button>
-          <Divider className="w-100" />
-          <button
-            style={linkStyle}
-            className="w-100  my-1 Rubik text-capitalize link text-center navItemMobile Hand"
-            onClick={() => {
-              setNavOpen(!NavOpen);
-              setLoginOpen(true);
-              setIsLogin(false);
-            }}
-          >
-            s'enregistrer
-          </button>
+          {state.isLogged ? (
+            <LoggedProfile mobile close={CloseModal} />
+          ) : (
+            <>
+              <button
+                style={linkStyle}
+                className="w-100  my-1 Rubik text-capitalize link text-center navItemMobile Hand"
+                onClick={() => {
+                  setNavOpen(!NavOpen);
+                  setLoginOpen(true);
+                  setIsLogin(true);
+                }}
+              >
+                se connecter
+              </button>
+              <Divider className="w-100" />
+              <button
+                style={linkStyle}
+                className="w-100  my-1 Rubik text-capitalize link text-center navItemMobile Hand"
+                onClick={() => {
+                  setNavOpen(!NavOpen);
+                  setLoginOpen(true);
+                  setIsLogin(false);
+                }}
+              >
+                s'enregistrer
+              </button>
+            </>
+          )}
         </div>
       </Modal>
       {/************************* Login & SignUp Modal *********************/}

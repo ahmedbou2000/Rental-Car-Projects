@@ -10,6 +10,9 @@ const CarItem = (props) => {
     <div
       style={ItemStyle}
       className="shadow d-flex flex-column justify-content-center align-items-center Hand carItem m-4"
+      onClick={()=>{
+        props.onClick(false);
+      }}
     >
       <img
         src={"http://localhost/restfulApi/images/rental%20cars/" + props.Image}

@@ -11,7 +11,8 @@ const initialState = {
   bgcolor: "#efefef",
   selectedtestimonial:0,
   selectedCar:"mercedes",
-  isLoading:false
+  isLoading:false,
+  isLogged:true
 };
 
 checkMobile();
@@ -36,7 +37,9 @@ const Reducer = (state = initialState, { type, payload }) => {
     case "carModel":
       return { ...state, selectedCar: payload };
     case "loading":
-      return { ...state, isLoading:!state.isLoading};
+      return { ...state, isLoading: !state.isLoading };
+    case "login":
+      return { ...state, isLogged : payload };
     default:
       return { ...state };
   }

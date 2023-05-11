@@ -11,7 +11,7 @@ const HeroContent = () => {
     const [ismobile,setisMobile] = useState(localStorage.getItem("isMobile"));
     useEffect(()=>{
         $(window).on("resize",()=>{setisMobile(localStorage.getItem("isMobile"))})
-        console.log(localStorage.getItem("isMobile"));
+        // console.log(localStorage.getItem("isMobile"));
     },[])
   return (
     <div className="container w-100 h-100" id="accueil">

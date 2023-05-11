@@ -3,24 +3,27 @@ import "../ComponentsStyle/ReservationPanel.css";
 import book_bg from "../assets/images/book-bg.png";
 import { DatePicker } from "antd";
 import { useEffect, useState } from "react";
-import {Modal} from "@mui/material";
+import { Modal } from "@mui/material";
 import { Sling as Hamburger } from "hamburger-react";
 import $ from "jquery";
 import ReservationProc from "./ReservationProc";
 import moment from "moment/moment";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ReservationPanel = () => {
-
-function disabledDate(current) {
-  // Disable dates before today
-  return current && current < moment().startOf('day');
-}
-
+  function disabledDate(current) {
+    // Disable dates before today
+    return current && current < moment().startOf("day");
+  }
+  const notify = () => {
+    toast("Veuillez sélectionner une date départ et date retour !");
+  };
   const { RangePicker } = DatePicker;
   const [ismobile, setIsmobile] = useState(localStorage.getItem("isMobile"));
   const [isReservationOpen, setReservationOpen] = useState(false);
-  const [DepartDate,setDepart] = useState("")
-  const [RetourDate,setRetour]=useState("");
+  const [DepartDate, setDepart] = useState("");
+  const [RetourDate, setRetour] = useState("");
   useEffect(() => {
     $(window).on("resize", () => {
       setIsmobile(localStorage.getItem("isMobile"));
@@ -62,12 +65,30 @@ function disabledDate(current) {
                     className="w-100 my-1"
                     disabledDate={disabledDate}
                     size="large"
+                    onChange={(date, datestring) => {
+                      if (date !== null) {
+                        setDepart(
+                          `${date.$y}-${date.$M + 1}-${date.$D}`
+                        );
+                      } else {
+                        setDepart(null);
+                      }
+                    }}
                   />
                   <DatePicker
                     placeholder="date arrivée"
                     className="w-100 my-1"
                     disabledDate={disabledDate}
                     size="large"
+                    onChange={(date, datestring) => {
+                      if (date !== null) {
+                        setRetour(
+                          `${date.$y}-${date.$M + 1}-${date.$D}`
+                        );
+                      } else {
+                        setRetour(null);
+                      }
+                    }}
                   />
                 </div>
               ) : (
@@ -76,8 +97,17 @@ function disabledDate(current) {
                   placeholder={["date départ", "date arrivée"]}
                   disabledDate={disabledDate}
                   onChange={(date, datestring) => {
-                    setDepart(`${date[0].$y}-${date[0].$M + 1}-${date[0].$D}`);
-                    setRetour(`${date[1].$y}-${date[1].$M + 1}-${date[1].$D}`);
+                    if (date !== null) {
+                      setDepart(
+                        `${date[0].$y}-${date[0].$M + 1}-${date[0].$D}`
+                      );
+                      setRetour(
+                        `${date[1].$y}-${date[1].$M + 1}-${date[1].$D}`
+                      );
+                    } else {
+                      setDepart(null);
+                      setRetour(null);
+                    }
                   }}
                 />
               )}
@@ -89,8 +119,16 @@ function disabledDate(current) {
                   ismobile === "true" ? "my-2" : ""
                 }`}
                 onClick={() => {
-                  console.log(DepartDate, RetourDate);
-                  setReservationOpen(!isReservationOpen);
+                  if (
+                    RetourDate === "" ||
+                    DepartDate === "" ||
+                    RetourDate === null ||
+                    DepartDate === null
+                  ) {
+                    notify();
+                  } else {
+                    setReservationOpen(!isReservationOpen);
+                  }
                 }}
               >
                 Réserver
@@ -117,10 +155,11 @@ function disabledDate(current) {
             />
           </div>
           <div style={{ height: "90%" }} className="container w-100 ">
-            <ReservationProc Depart={""} Retour={""} />
+            <ReservationProc Depart={DepartDate} Retour={RetourDate} />
           </div>
         </div>
       </Modal>
+      <ToastContainer position="bottom-center" />
     </div>
   );
 };

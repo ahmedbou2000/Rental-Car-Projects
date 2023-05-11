@@ -58,6 +58,12 @@ code {
 .width-auto {
   width: auto;
 }
+.bg-none{
+  background-color:transparent !important;
+}
+.border-none{
+  border: none !important;
+}
 
 .GreyColor {
   color: #65676a;

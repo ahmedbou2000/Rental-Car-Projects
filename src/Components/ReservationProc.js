@@ -1,10 +1,19 @@
 import LoadingSearch from "./LoadingSearch";
-import CarItem from "./CarItem";
-import {useSelector} from "react-redux";
-import carImg from "../assets/images/rental cars/c220.png"
-import NoCarFound from "./NoCarFound";
-const ReservationProc = () => {
-  const state = useSelector(state=>state)
+import { useSelector } from "react-redux";
+import FirstStep from "./FirstStep";
+import SecondStep from "./SecondStep";
+import { useState } from "react";
+import DoneStep from "./DoneStep";
+const ReservationProc = (props) => {
+  const state = useSelector((state) => state);
+  const [is1Step, set1step] = useState(true);
+  const [isDone, setDone] = useState(false);
+  const clickSet = (value) => {
+    set1step(value);
+  };
+  const Done = (value) => {
+    setDone(value);
+  };
   return (
     <div
       className={`w-100 h-100 d-flex flex-column justify-content-center align-items-center`}
@@ -16,30 +25,33 @@ const ReservationProc = () => {
         </>
       ) : (
         <div className="Montserrat w-100 d-flex flex-column justify-content-center align-items-center h-100 reservationProcContent">
-          <h1
-            className="Poppins b-7 text-center w-100 mb-4"
-            style={{ height: "10%" }}
-          >
-            Résultat de recherche
-          </h1>
-          <div className="car-div-show w-100" style={{ height: "90%" }}>
-            <CarItem
-              Image={"opel-corsa.png"}
-              Marque={"Mercedes-Benz"}
-              Model={"Classe C220"}
-              Price={400}
-            />
+          {isDone ? (
+            ""
+          ) : (
+            <h1
+              className="Poppins b-7 text-center w-100 my-4"
+              style={{ height: "10vh" }}
+            >
+              {is1Step ? "Résultat de recherche" : "Information de Location"}
+            </h1>
+          )}
 
-            <CarItem
-              Image={
-                "GOLF7R.png"
-              }
-              Marque={"Mercedes-Benz"}
-              Model={"Classe C220"}
-              Price={400}
+          {is1Step ? (
+            <FirstStep onClick={clickSet} />
+          ) : !isDone ? (
+            <SecondStep
+              Car={"Mercedes-Benz c220"}
+              Depart={props.Depart}
+              Retour={props.Retour}
+              NomLocataire={"BOUKHRISS"}
+              PrenomLocataire={"MOHAMED"}
+              Email={"bouukhriss@gmail.com"}
+              Telephone={"0652085526"}
+              onClick={Done}
             />
-            {/* <NoCarFound/> */}
-          </div>
+          ) : (
+            <DoneStep />
+          )}
         </div>
       )}
     </div>
