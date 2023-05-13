@@ -1,5 +1,5 @@
 import { User, Dropdown } from "@nextui-org/react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "../ComponentsStyle/LoggedProfile.css";
 import { Modal } from "@mui/material";
 import { useState } from "react";
@@ -10,7 +10,17 @@ import { CgProfile } from "react-icons/cg";
 import { MdOutlineDocumentScanner } from "react-icons/md";
 import { SlLogout } from "react-icons/sl";
 
+const user = {
+  ADRESSE: "",
+  EMAIL: "",
+  Nom: "",
+  PRENOM: "",
+  TEL: "",
+  idClient: 1,
+};
+
 const LoggedProfile = (props) => {
+  const state = useSelector((state) => state);
   const [OpenModal, setModalOpen] = useState(false);
   const [isDemand, setDemand] = useState(false);
   const dispatch = useDispatch();
@@ -30,6 +40,7 @@ const LoggedProfile = (props) => {
         break;
       case "Disconnect":
         dispatch({ type: "login", payload: false });
+        dispatch({ type: "user", payload: user });
         break;
       default:
         break;
@@ -44,11 +55,19 @@ const LoggedProfile = (props) => {
               options
             </button>
           ) : (
-            <User size="lg" text="BM" className="userProfile" />
+            <User
+              size="lg"
+              text={`${state.user.Nom.charAt(0)} ${state.user.PRENOM.charAt(
+                0
+              )}`}
+              className="userProfile"
+            />
           )}
         </Dropdown.Trigger>
         <Dropdown.Menu onAction={HandleDropSelect} color="warning">
-          <Dropdown.Item key={"account"}>BOUKHRISS MOHAMED</Dropdown.Item>
+          <Dropdown.Item
+            key={"account"}
+          >{`${state.user.Nom} ${state.user.PRENOM}`}</Dropdown.Item>
           <Dropdown.Item key={"Profile"} withDivider icon={<CgProfile />}>
             mon compte
           </Dropdown.Item>

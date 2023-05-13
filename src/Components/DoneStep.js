@@ -8,10 +8,10 @@ const DoneStep = () => {
         style={{ pointerEvents: "none", height: "200px" }}
       />
       <h1 className="Poppins b-7 f-25 mt-4 mb-1">demande envoyé avec succes</h1>
-      <p className="Poppins text-center">
+      {/* <p className="Poppins text-center">
         vous pouvez consulté vos demandes de location sur{" "}
         <span className="orangeColor Hand Poppins">mes demandes</span>
-      </p>
+      </p> */}
     </div>
   );
 }

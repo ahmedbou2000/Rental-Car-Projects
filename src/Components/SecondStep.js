@@ -9,7 +9,7 @@ const SecondStep = (props) => {
       <Grid container className="w-100 ">
         <Grid item xs={12} sm={12} md={12} lg={12} className="center  p-3">
           <TextField
-            className="w-100 txt-disabled"
+            className="w-100 txt-disabled disabledInpt"
             label={"Voiture"}
             style={{ textAlign: "center" }}
             value={props.Car}
@@ -17,42 +17,42 @@ const SecondStep = (props) => {
         </Grid>
         <Grid item xs={12} sm={12} md={6} lg={6} className="center  p-3">
           <TextField
-            className="w-100 txt-disabled"
+            className="w-100 txt-disabled disabledInpt"
             label={"Date départ"}
             value={props.Depart}
           />
         </Grid>
         <Grid item xs={12} sm={12} md={6} lg={6} className="center  p-3">
           <TextField
-            className="w-100 txt-disabled"
+            className="w-100 txt-disabled disabledInpt"
             label={"Date retour"}
             value={props.Retour}
           />
         </Grid>
         <Grid item xs={12} sm={12} md={6} lg={6} className="center  p-3">
           <TextField
-            className="w-100 txt-disabled"
+            className="w-100 txt-disabled disabledInpt"
             label={"Nom locataire"}
             value={props.NomLocataire}
           />
         </Grid>
         <Grid item xs={12} sm={12} md={6} lg={6} className="center  p-3">
           <TextField
-            className="w-100 txt-disabled"
+            className="w-100 txt-disabled disabledInpt"
             label={"Prenom locataire"}
             value={props.PrenomLocataire}
           />
         </Grid>
         <Grid item xs={12} sm={12} md={6} lg={6} className="center  p-3">
           <TextField
-            className="w-100 txt-disabled"
+            className="w-100 txt-disabled disabledInpt"
             label={"Email"}
             value={props.Email}
           />
         </Grid>
         <Grid item xs={12} sm={12} md={6} lg={6} className="center  p-3">
           <TextField
-            className="w-100 txt-disabled"
+            className="w-100 txt-disabled disabledInpt"
             label={"N°télephone"}
             value={props.Telephone}
           />
@@ -61,8 +61,8 @@ const SecondStep = (props) => {
           <Button
             variant="contained bg-success text-white p-3 w-100 my-5"
             size="large"
-            onClick={()=>{
-              props.onClick(true)
+            onClick={() => {
+              props.onClick(true);
             }}
           >
             confirmer et envoyer

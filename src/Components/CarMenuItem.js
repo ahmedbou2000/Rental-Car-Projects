@@ -13,7 +13,7 @@ const CarMenuItem = (props) => {
   return ismobile === "true" ? (
     <a
       className={`modelBtn w-100 center Roboto b-7 ${
-        props.idKey === state.selectedCar ? "carActive orangeColor" : ""
+        props.immatricule === state.selectedCar ? "carActive orangeColor" : ""
       }`}
       onClick={() => {
         props.onClick();
@@ -25,7 +25,7 @@ const CarMenuItem = (props) => {
   ) : (
     <div
       className={`modelBtn w-100 center Roboto b-7 ${
-        props.idKey === state.selectedCar ? "carActive orangeColor" : ""
+        props.immatricule === state.selectedCar ? "carActive orangeColor" : ""
       }`}
       onClick={() => {
         props.onClick();

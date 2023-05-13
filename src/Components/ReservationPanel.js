@@ -1,4 +1,5 @@
 import { Button, Grid } from "@mui/material";
+import {useSelector} from "react-redux";
 import "../ComponentsStyle/ReservationPanel.css";
 import book_bg from "../assets/images/book-bg.png";
 import { DatePicker } from "antd";
@@ -12,6 +13,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const ReservationPanel = () => {
+  const state = useSelector(state=>state)
   function disabledDate(current) {
     // Disable dates before today
     return current && current < moment().startOf("day");
@@ -67,9 +69,7 @@ const ReservationPanel = () => {
                     size="large"
                     onChange={(date, datestring) => {
                       if (date !== null) {
-                        setDepart(
-                          `${date.$y}-${date.$M + 1}-${date.$D}`
-                        );
+                        setDepart(`${date.$y}-${date.$M + 1}-${date.$D}`);
                       } else {
                         setDepart(null);
                       }
@@ -82,9 +82,7 @@ const ReservationPanel = () => {
                     size="large"
                     onChange={(date, datestring) => {
                       if (date !== null) {
-                        setRetour(
-                          `${date.$y}-${date.$M + 1}-${date.$D}`
-                        );
+                        setRetour(`${date.$y}-${date.$M + 1}-${date.$D}`);
                       } else {
                         setRetour(null);
                       }
@@ -127,7 +125,10 @@ const ReservationPanel = () => {
                   ) {
                     notify();
                   } else {
-                    setReservationOpen(!isReservationOpen);
+                    if (state.isLogged) setReservationOpen(!isReservationOpen);
+                    else {
+                      toast("vous devez etre connecté! merci de se connecter ou de créer un compte !")
+                    }
                   }
                 }}
               >

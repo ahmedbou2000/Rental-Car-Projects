@@ -1,0 +1,3 @@
+.disabledInpt .MuiInputBase-input{
+    cursor: not-allowed !important;
+}

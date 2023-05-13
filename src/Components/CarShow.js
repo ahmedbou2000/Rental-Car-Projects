@@ -1,22 +1,66 @@
 import "../ComponentsStyle/CarShow.css";
-import {Grid} from "@mui/material";
-import Mercedes from "../assets/images/rental cars/c220.png";
-import Audi from "../assets/images/rental cars/Audi_A1.png";
-import Corsa from "../assets/images/rental cars/opel-corsa.png";
-import Golf from "../assets/images/rental cars/GOLF7R.png";
-import Clio from "../assets/images/rental cars/renault clio.png";
-import Range from "../assets/images/rental cars/Evoque.png";
+import { Grid } from "@mui/material";
 import { MdDateRange, MdOutlineAir } from "react-icons/md";
 import { GiCarDoor, GiGearStickPattern } from "react-icons/gi";
-import { useState } from "react";
-import {BsFuelPump} from "react-icons/bs";
-import carData from "../Config/CarsModels.json";
+import { useEffect, useState } from "react";
+import { BsFuelPump } from "react-icons/bs";
 import CarMenuItem from "./CarMenuItem";
-import { useDispatch } from "react-redux";
-const Cars =[Mercedes,Range,Audi,Golf,Corsa,Clio]
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+
 const CarShow = () => {
-    const dispatch = useDispatch();
-    const [selected,setSelected] = useState(0);
+  const dispatch = useDispatch();
+  const [myCars, setMyCars] = useState([]);
+  const [carDetails, setCarDetails] = useState([]);
+  const state = useSelector((state) => state);
+
+
+  const SelectDetail = (idV) => {
+    const det = carDetails.filter((det) => det.idVoiture === idV);
+    dispatch({ type: "carDetail", payload: det[0] });
+  };
+
+  const fetchCars = () => {
+    axios
+      .get("http://localhost:3001/api/voiture/all", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        setMyCars(response.data);
+      })
+      .catch((error) => {
+        console.log("error occured");
+      });
+  };
+
+  const fetchDetails = () => {
+    axios
+      .get("http://localhost:3001/api/voiture/detail/all", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        // console.log(response.data);
+        setCarDetails(response.data);
+      })
+      .catch((error) => {
+        console.log("error occured");
+      });
+  };
+  useEffect(() => {
+    fetchCars();
+    fetchDetails();
+  }, []);
+
+  const [selected, setSelected] = useState(
+    myCars.length > 0
+      ? myCars.img
+      : "cliquer pour afficher les informations de chaque voiture"
+  );
+
   return (
     <div className="w-100 carShowcontainer " id={"CarModel"}>
       <div className="container w-100 h-100 py-3">
@@ -39,59 +83,22 @@ const CarShow = () => {
               lg={2}
               className="d-flex flex-column justify-content-center align-items-center    "
             >
-              <CarMenuItem
-                label={"Mercedes Benz C220"}
-                idKey="mercedes"
-                onClick={() => {
-                  setSelected(0);
-                  dispatch({ type: "carModel", payload: "mercedes" });
-                }}
-              />
-
-              <CarMenuItem
-                label={"Range Rover Evoque"}
-                idKey="range"
-                onClick={() => {
-                  setSelected(1);
-                  dispatch({ type: "carModel", payload: "range" });
-                }}
-              />
-
-              <CarMenuItem
-                label={"Audi A1 S-Line"}
-                idKey="audi"
-                onClick={() => {
-                  setSelected(2);
-                  dispatch({ type: "carModel", payload: "audi" });
-                }}
-              />
-
-              <CarMenuItem
-                label={"Volkswagen Golf 7"}
-                idKey="golf"
-                onClick={() => {
-                  setSelected(3);
-                  dispatch({ type: "carModel", payload: "golf" });
-                }}
-              />
-
-              <CarMenuItem
-                label={"Opel Corsa"}
-                idKey="opel"
-                onClick={() => {
-                  setSelected(4);
-                  dispatch({ type: "carModel", payload: "opel" });
-                }}
-              />
-
-              <CarMenuItem
-                label={"Renault Clio 4"}
-                idKey="clio"
-                onClick={() => {
-                  setSelected(5);
-                  dispatch({ type: "carModel", payload: "clio" });
-                }}
-              />
+              {myCars.map((element, index) => (
+                <CarMenuItem
+                  key={index}
+                  label={element.MARQUE + " " + element.MODELE}
+                  immatricule={element.IMMATRICULE}
+                  idKey={element.MARQUE + " " + element.MODELE}
+                  onClick={() => {
+                    setSelected(element.img);
+                    SelectDetail(element.IDVOITURE);
+                    dispatch({
+                      type: "carModel",
+                      payload: element.IMMATRICULE,
+                    });
+                  }}
+                />
+              ))}
             </Grid>
             <Grid
               item
@@ -102,7 +109,16 @@ const CarShow = () => {
               className="imgContainer center"
               id="showCase"
             >
-              <img src={Cars[selected]} alt={selected} className=" imgCar" />
+              <img
+                src={
+                  selected ===
+                  "cliquer pour afficher les informations de chaque voiture"
+                    ? ""
+                    : `http://localhost/restfulAPI/images./rental%20cars/${selected}`
+                }
+                alt={selected}
+                className=" imgCar"
+              />
             </Grid>
             <Grid
               item
@@ -114,29 +130,29 @@ const CarShow = () => {
             >
               <span>
                 <span className="f-25 orangeColor b-7">
-                  {carData[selected].price} DH{" "}
+                  {state.CarDetail.price} DH{" "}
                 </span>{" "}
                 /jour
               </span>
               <span className="f-15 b-7 my-1">
                 <MdDateRange className="orangeColor f-25" />{" "}
-                {carData[selected].year}
+                {state.CarDetail.year}
               </span>
               <span className="f-15 b-7 my-1">
                 <GiCarDoor className="orangeColor f-25" />{" "}
-                {carData[selected].door}
+                {state.CarDetail.doors}
               </span>
               <span className="f-15 b-7 my-1">
                 <MdOutlineAir className="orangeColor f-25" />{" "}
-                {carData[selected].ac}
+                {state.CarDetail.ac === "T" ? "Oui" : "Non"}
               </span>
               <span className="f-15 b-7 my-1">
                 <GiGearStickPattern className="orangeColor f-25" />{" "}
-                {carData[selected].gear}
+                {state.CarDetail.gear}
               </span>
               <span className="f-15 b-7 my-1">
                 <BsFuelPump className="orangeColor f-25" />{" "}
-                {carData[selected].fuel}
+                {state.CarDetail.fuel}
               </span>
             </Grid>
           </Grid>
