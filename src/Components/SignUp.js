@@ -42,6 +42,12 @@ const SignUp = () => {
           />
           <TextField
             variant="filled"
+            label="Adresse"
+            className="w-100 my-1"
+            size="small"
+          />
+          <TextField
+            variant="filled"
             label="Email"
             className="w-100 my-1"
             type="email"
@@ -54,7 +60,7 @@ const SignUp = () => {
             type="password"
             size="small"
             value={pwd}
-            error={pwd !== pwd2} 
+            error={pwd !== pwd2}
             onChange={(e) => setPwd(e.target.value)}
           />
           <TextField

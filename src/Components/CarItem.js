@@ -1,4 +1,6 @@
+import { useState } from "react";
 import "../ComponentsStyle/CarItem.css";
+import { useEffect } from "react";
 const CarItem = (props) => {
   const ItemStyle = {
     width: "350px",
@@ -6,12 +8,22 @@ const CarItem = (props) => {
     borderRadius: "10px",
     backgroundColor: "white",
   };
+  const [carsId, setCarsID]=useState("");
+  useEffect(()=>{setCarsID(props.CarId);},[props.CarId])
   return (
     <div
       style={ItemStyle}
       className="shadow d-flex flex-column justify-content-center align-items-center Hand carItem m-4"
       onClick={()=>{
+        const car = {
+          CARID: carsId,
+          MARQUE: `${props.Marque} ${props.Model} ${props.Year} `,
+          price: props.Price,
+        };
+        // console.log("from car item",car)
+        props.setSelectedCar(car);
         props.onClick(false);
+        // alert(carsId)
       }}
     >
       <img

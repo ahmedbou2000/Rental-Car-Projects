@@ -1,5 +1,5 @@
 import { Button, Grid } from "@mui/material";
-import {useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 import "../ComponentsStyle/ReservationPanel.css";
 import book_bg from "../assets/images/book-bg.png";
 import { DatePicker } from "antd";
@@ -13,7 +13,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const ReservationPanel = () => {
-  const state = useSelector(state=>state)
+  const state = useSelector((state) => state);
   function disabledDate(current) {
     // Disable dates before today
     return current && current < moment().startOf("day");
@@ -125,9 +125,13 @@ const ReservationPanel = () => {
                   ) {
                     notify();
                   } else {
-                    if (state.isLogged) setReservationOpen(!isReservationOpen);
-                    else {
-                      toast("vous devez etre connecté! merci de se connecter ou de créer un compte !")
+                    if (state.isLogged) {
+                      
+                      setReservationOpen(!isReservationOpen);
+                    } else {
+                      toast(
+                        "vous devez etre connecté! merci de se connecter ou de créer un compte !"
+                      );
                     }
                   }
                 }}

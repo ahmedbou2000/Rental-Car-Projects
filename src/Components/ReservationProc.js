@@ -1,19 +1,47 @@
 import LoadingSearch from "./LoadingSearch";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import FirstStep from "./FirstStep";
 import SecondStep from "./SecondStep";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DoneStep from "./DoneStep";
+import axios from "axios";
 const ReservationProc = (props) => {
+  const dispatch = useDispatch();
   const state = useSelector((state) => state);
   const [is1Step, set1step] = useState(true);
   const [isDone, setDone] = useState(false);
+  const [CarsData, setCarsData] = useState([]);
+  const [selectedCar,setSelectedCar] = useState()
   const clickSet = (value) => {
     set1step(value);
   };
   const Done = (value) => {
     setDone(value);
   };
+
+  useEffect(() => {
+    dispatch({ type: "loading" });
+    axios
+      .get(
+        `http://localhost:3001/api/checking?depart=${props.Depart}&retour=${props.Retour}`
+      )
+      .then((response) => {
+        console.log(response.data);
+        setCarsData(response.data);
+        dispatch({ type: "loading" });
+        console.log("from reservation proc component", response.data);
+      })
+      .catch((error) => {
+        console.log("an error occured while fetching car reservation", error);
+        dispatch({ type: "loading" });
+      });
+  }, [dispatch, props.Depart, props.Retour]);
+
+const HandleCarSelect =(car)=>{
+    setSelectedCar(car);
+    // console.log("from reservation proc",car)
+}
+
   return (
     <div
       className={`w-100 h-100 d-flex flex-column justify-content-center align-items-center`}
@@ -37,16 +65,16 @@ const ReservationProc = (props) => {
           )}
 
           {is1Step ? (
-            <FirstStep onClick={clickSet} />
+            <FirstStep onClick={clickSet} Data={CarsData} setSelectedCar={HandleCarSelect}/>
           ) : !isDone ? (
             <SecondStep
-              Car={"Mercedes-Benz c220"}
+              Car={selectedCar}
               Depart={props.Depart}
               Retour={props.Retour}
-              NomLocataire={"BOUKHRISS"}
-              PrenomLocataire={"MOHAMED"}
-              Email={"bouukhriss@gmail.com"}
-              Telephone={"0652085526"}
+              NomLocataire={state.user.Nom}
+              PrenomLocataire={state.user.PRENOM}
+              Email={state.user.EMAIL}
+              Telephone={state.user.TEL}
               onClick={Done}
             />
           ) : (

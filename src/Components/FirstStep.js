@@ -3,17 +3,11 @@ import CarItem from "./CarItem";
 import NoCarFound from "./NoCarFound";
 import { useEffect } from "react";
 
-const Car ={
-    Image:"c220.png",
-    Marque:"Mercedes-Benz",
-    Model:"Classe C220",
-    Price:400
-}
 const FirstStep = (props) => {
     const [Cars,setCars] = useState([]);
     useEffect(()=>{
-        setCars([Car])
-    },[])
+        setCars(props.Data)
+    },[props.Data])
   return (
     <div className="car-div-show w-100" style={{ height: "90vh" }}>
       {Cars.length === 0 ? (
@@ -22,11 +16,14 @@ const FirstStep = (props) => {
         Cars.map((element, index) => (
           <CarItem
             key={index}
-            Image={element.Image}
-            Marque={element.Marque}
-            Model={element.Model}
-            Price={element.Price}
+            CarId={element.IDVOITURE}
+            Image={element.img}
+            Marque={element.MARQUE}
+            Model={element.MODELE}
+            Year ={element.year}
+            Price={element.price}
             onClick={props.onClick}
+            setSelectedCar={props.setSelectedCar}
           />
         ))
       )}

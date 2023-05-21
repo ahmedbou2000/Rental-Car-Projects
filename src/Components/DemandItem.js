@@ -14,7 +14,6 @@ const DemandItem = (props) => {
           sm={12}
           md={4}
           lg={4}
-        //   style={{ minHeight: "80px" }}
           className="center Poppins b-7 f-20"
         >
           {props.car}

@@ -190,7 +190,7 @@ const Navbar = () => {
       <Modal open={LoginOpen} className="center">
         <div
           className={`loginModel ${
-            ismobile === "true" ? "w-100" : "w-25"
+            ismobile === "true" ? "w-100" : "w-35"
           } bg-white shadow rounded`}
           style={{ minHeight: ismobile === "true" ? "100vh" : "30rem" }}
         >
