@@ -1,35 +1,9 @@
 import { useParams } from "react-router-dom";
 import CryptoJS from "crypto-js";
-import { useEffect,useState } from "react";
-
-const HandleDecrypt = (encryptedData) => {
-  const encryptionKey =
-    "AMKDMA3206KJDA2792ENLKJL&2DZOHADB83027302EOOY3E2ORY082324R2IRJ028U402"; // Replace with your encryption key
-  const decryptionMethod = "AES-256-CBC";
-
-  // Decode the base64-encoded string
-  const decodedData = CryptoJS.enc.Base64.parse(encryptedData);
-
-  // Get the IV (initialization vector) from the decoded data
-  const iv = CryptoJS.lib.WordArray.create(decodedData.words.slice(0, 4));
-
-  // Get the encrypted data from the decoded data
-  const encryptedBytes = CryptoJS.lib.WordArray.create(
-    decodedData.words.slice(4)
-  );
-
-  // Decrypt the encrypted data
-  const decryptedBytes = CryptoJS.AES.decrypt(
-    { ciphertext: encryptedBytes },
-    CryptoJS.enc.Utf8.parse(encryptionKey),
-    { iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }
-  );
-
-  // Convert the decrypted bytes to a string
-  console.log("decrypted", decryptedBytes.toString(CryptoJS.enc.Utf8));
-  return decryptedBytes.toString(CryptoJS.enc.Utf8);
-};
-
+import { useEffect, useState } from "react";
+import Confirmation from "../assets/images/confirmation.jpg";
+import Expiry from "../assets/images/ExpiryMail.jpg";
+import { Link } from "react-router-dom";
 
 function isWithinOneDay(date1, date2) {
   const oneDayMilliseconds = 24 * 60 * 60 * 1000; // Number of milliseconds in a day
@@ -38,25 +12,57 @@ function isWithinOneDay(date1, date2) {
   return difference <= oneDayMilliseconds;
 }
 const ConfirmEmail = () => {
-  let { email, date } = useParams();
-  const [isValid ,setIsValid] = useState(false);
-  useEffect(()=>{
-    console.log("date",date)
-    const data = HandleDecrypt(date);
-    console.log("data",data)
+  let { Email, Year, Month, Day } = useParams();
+  const [isValid, setIsValid] = useState(false);
+  useEffect(() => {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
     const month = String(currentDate.getMonth() + 1).padStart(2, "0");
     const day = String(currentDate.getDate()).padStart(2, "0");
     const formattedDate = `${year}-${month}-${day}`;
-
-    if(isWithinOneDay(new Date(formattedDate),new Date(data))){
-        setIsValid(true);
+    const data = `${Year / 1648}-${Month / 1648}-${Day / 1648}`;
+    if (isWithinOneDay(new Date(formattedDate), new Date(data))) {
+      setIsValid(true);
     }
-  },[])
+  }, []);
   return (
     <>
-      <p>confirmation page {isValid?"yes":"Nooo"}</p>
+      {isValid ? (
+        <>
+          <div className="w-100 center-column" style={{ height: "100vh" }}>
+            <img
+              src={Confirmation}
+              alt={"erreu 404"}
+              style={{ height: "250px", pointerEvents: "none" }}
+            />
+            <h3 className="Poppins">
+              Votre compte a été confirmé avec success !
+            </h3>
+            <Link to={"/"} className="orangeColor Hand Poppins">
+              Accueil
+            </Link>
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="w-100 center-column" style={{ height: "100vh" }}>
+            <img
+              src={Expiry}
+              alt={"erreu 404"}
+              style={{ height: "250px", pointerEvents: "none" }}
+            />
+            <h3 className="Poppins text-center">
+              Confirmation expiré !<br/>
+              <a className="Hand orangeColor">
+                renvoyer un email de confirmation
+              </a>
+            </h3>
+            <Link to={"/"} className="orangeColor Hand Poppins my-5">
+              Accueil
+            </Link>
+          </div>
+        </>
+      )}
     </>
   );
 };

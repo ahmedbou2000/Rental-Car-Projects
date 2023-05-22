@@ -16,7 +16,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/confirm/:email/:date*" element={<ConfirmEmail/>}/>
+        <Route path="/confirm/:Email/:Year/:Month/:Day" element={<ConfirmEmail/>}/>
         <Route path="*" element={<NotFound/>}/>
       </Routes>
     </Router>
