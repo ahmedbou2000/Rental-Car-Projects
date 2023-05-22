@@ -26,7 +26,7 @@ const ReservationProc = (props) => {
         `http://localhost:3001/api/checking?depart=${props.Depart}&retour=${props.Retour}`
       )
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         setCarsData(response.data);
         dispatch({ type: "loading" });
         console.log("from reservation proc component", response.data);

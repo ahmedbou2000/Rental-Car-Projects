@@ -20,6 +20,7 @@ const initialState = {
     PRENOM: "",
     TEL: "",
     idClient: 1,
+    status:"",
   },
   CarDetail: {
     idDetail: 0,

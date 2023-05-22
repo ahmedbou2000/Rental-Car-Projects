@@ -18,7 +18,7 @@ const Demands = (props) => {
       .catch((error) => {
         console.log("an error occured", error);
       });
-  }, []);
+  }, [state.user.idClient]);
   return (
     <div className="w-100 h-100 d-flex flex-column align-items-center">
       <h1 className="Poppins f-25 b-7 w-100">Mes demandes de location</h1>

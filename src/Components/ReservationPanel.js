@@ -154,6 +154,8 @@ const ReservationPanel = () => {
           >
             <Hamburger
               onToggle={() => {
+                setDepart("");
+                setRetour("");
                 setReservationOpen(!isReservationOpen);
               }}
               toggled={isReservationOpen}

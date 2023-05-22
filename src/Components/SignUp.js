@@ -49,7 +49,7 @@ const SignUp = (props) => {
           `http://localhost:3001/api/signup?nom=${nom}&prenom=${prenom}&adress=${adresse}&email=${email}&mdp=${pwd}&tel=${tel}`
         )
         .then((resposne) => {
-          console.log("data received", resposne.data);
+          // console.log("data received", resposne.data);
           if (resposne.data === 1) {
             toast(
               "vous avez déja un compte avec cette adresse mail! essayer de se connecter"

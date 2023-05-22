@@ -24,13 +24,19 @@ const Login = (props) => {
       })
       .then((response) => {
         if (response.data.length === 1) {
-          dispatch({ type: "login", payload: true });
-          dispatch({ type: "user", payload: response.data[0] });
-          setEmail("");
-          setPwd("");
-          props.closeModal();
-          dispatch({ type: "loading" });
-          toast("Bienvenue de retour! Vous êtes connecté avec succès.");
+          if (response.data[0].status === "confirmé") {
+            dispatch({ type: "login", payload: true });
+            dispatch({ type: "user", payload: response.data[0] });
+            setEmail("");
+            setPwd("");
+            props.closeModal();
+            dispatch({ type: "loading" });
+            toast("Bienvenue de retour! Vous êtes connecté avec succès.");
+          } else {
+            toast("vous devez confirmer votre compte !");
+            dispatch({ type: "loading" });
+            props.closeModal();
+          }
         } else {
           toast("email ou mot de passe incorrect ! Merci de réssayer !");
           dispatch({ type: "loading" });
