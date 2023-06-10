@@ -10,7 +10,11 @@ import javafx.scene.control.DialogPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.Optional;
 
 public class HelloApplication extends Application {
@@ -44,7 +48,7 @@ public class HelloApplication extends Application {
         alert.setHeaderText(headerText);
         alert.setContentText(Content);
         DialogPane dialogPane = alert.getDialogPane();
-        dialogPane.setPrefWidth(600);
+        dialogPane.setPrefWidth(600);   
         alert.show();
     }
 
@@ -70,6 +74,31 @@ public class HelloApplication extends Application {
         dialogPane.setPrefWidth(600);
 
         Optional<ButtonType> result = alert.showAndWait();
-        return result.get() == ButtonType.OK;
+        return result.get() == ButtonTy
+    }
+
+
+
+    public static void copyImageToDestination(File sourceImage) {
+        // Destination folder path
+        String destinationFolderPath = "C:\\wamp64\\www\\restfulAPI\\images\\rental cars";
+
+        // Create the destination folder if it doesn't exist
+        File destinationFolder = new File(destinationFolderPath);
+        if (!destinationFolder.exists()) {
+            destinationFolder.mkdirs();
+        }
+
+        try {
+            // Copy the image file to the destination folder
+            Path destinationPath = destinationFolder.toPath().resolve(sourceImage.getName());
+            Files.copy(sourceImage.toPath(), destinationPath, StandardCopyOption.REPLACE_EXISTING);
+
+            System.out.println("Image copied successfully!");
+//            displayInformationAlert("Image Copy", "Success", "Image copied successfully!");
+        } catch (IOException e) {
+            System.out.println("Error copying image: " + e.getMessage());
+//            displayErrorAlert("Image Copy Error", "Error", "Error copying image: " + e.getMessage());
+        }
     }
 }

@@ -2,6 +2,7 @@
 
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
@@ -11,7 +12,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="CarMainPanel" prefHeight="694.0" prefWidth="1031.0" style="-fx-background-color: white;" stylesheets="@../../../Styles/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rentaloo.rentaloo.VehiculeController">
+<AnchorPane fx:id="CarMainPanel" prefHeight="818.0" prefWidth="1031.0" style="-fx-background-color: white;" stylesheets="@../../../Styles/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rentaloo.rentaloo.VehiculeController">
    <children>
       <TabPane layoutY="53.0" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
         <tabs>
@@ -40,8 +41,10 @@
                               <TextField fx:id="txtAnnee" layoutX="42.0" layoutY="309.0" prefHeight="34.0" prefWidth="396.0" promptText="Année" style="-fx-background-color: whitesmoke; -fx-background-radius: 6px; -fx-border-radius: 6px; -fx-border-color: gray;" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="32.0" />
                               <Label layoutX="24.0" layoutY="356.0" text="Carburant" AnchorPane.leftAnchor="32.0" />
                               <ComboBox fx:id="carburantList" layoutX="32.0" layoutY="388.0" prefHeight="38.0" prefWidth="370.0" promptText="Carburant" style="-fx-background-color: whitesmoke; -fx-background-radius: 6px; -fx-border-radius: 6px; -fx-border-color: gray;" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="32.0" />
-                              <Button fx:id="AddCarBtn" alignment="CENTER" contentDisplay="CENTER" layoutX="32.0" layoutY="445.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="370.0" style="-fx-background-color: green; -fx-background-radius: 6px; -fx-border-radius: 6px;" styleClass="btn" text="valider et enregistrer" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="32.0" />
-                              <Button alignment="CENTER" contentDisplay="CENTER" layoutX="32.0" layoutY="495.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="370.0" style="-fx-background-color: tomato; -fx-background-radius: 6px; -fx-border-radius: 6px;" styleClass="btn" text="vider" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="32.0" />
+                              <Label layoutX="28.0" layoutY="437.0" text="Type boite vitesse" AnchorPane.leftAnchor="32.0" />
+                              <ComboBox fx:id="GearList" layoutX="36.0" layoutY="469.0" prefHeight="38.0" prefWidth="370.0" promptText="Boite vitesse" style="-fx-background-color: whitesmoke; -fx-background-radius: 6px; -fx-border-radius: 6px; -fx-border-color: gray;" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="32.0" />
+                              <Label layoutX="34.0" layoutY="518.0" text="Nombre de Porte" AnchorPane.leftAnchor="32.0" />
+                              <TextField fx:id="txtNbrDoor" layoutX="32.0" layoutY="551.0" prefHeight="34.0" prefWidth="396.0" promptText="Nombre de porte" style="-fx-background-color: whitesmoke; -fx-background-radius: 6px; -fx-border-radius: 6px; -fx-border-color: gray;" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="32.0" />
                            </children>
                         </AnchorPane>
                         <AnchorPane fx:id="ImageInforamtionPane" layoutX="434.0" layoutY="6.0" prefHeight="541.0" prefWidth="462.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -56,6 +59,11 @@
                                     </ImageView>
                                  </children>
                               </AnchorPane>
+                              <Button fx:id="AddCarBtn" alignment="CENTER" contentDisplay="CENTER" layoutX="32.0" layoutY="585.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="370.0" style="-fx-background-color: green; -fx-background-radius: 6px; -fx-border-radius: 6px;" styleClass="btn" text="valider et enregistrer" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="32.0" />
+                              <Button fx:id="ViderBTN" alignment="CENTER" contentDisplay="CENTER" layoutX="32.0" layoutY="635.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="370.0" style="-fx-background-color: tomato; -fx-background-radius: 6px; -fx-border-radius: 6px;" styleClass="btn" text="vider" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="32.0" />
+                              <Label layoutX="34.0" layoutY="431.0" text="Prix de location" AnchorPane.leftAnchor="32.0" />
+                              <TextField fx:id="txtRentPrice" layoutX="32.0" layoutY="464.0" prefHeight="34.0" prefWidth="396.0" promptText="Prix de location" style="-fx-background-color: whitesmoke; -fx-background-radius: 6px; -fx-border-radius: 6px; -fx-border-color: gray;" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="32.0" />
+                              <CheckBox fx:id="ACcheck" layoutX="32.0" layoutY="529.0" mnemonicParsing="false" text="Climatisation" AnchorPane.leftAnchor="32.0" />
                            </children>
                         </AnchorPane>
                      </children></AnchorPane>

@@ -38,20 +38,23 @@ public class VehiculeController implements Initializable {
     private ImageView carImg;
 
     @FXML
-    private ComboBox carburantList;
+    private ComboBox carburantList, GearList;
 
 
     @FXML
-    private Button AddCarBtn;
+    private Button AddCarBtn, ViderBTN;
 
     @FXML
-    private TextField txtImmat, txtMarque, txtModel, txtAnnee;
+    private TextField txtImmat, txtMarque, txtModel, txtAnnee, txtRentPrice, txtNbrDoor;
 
-    private String DefaultImagePath = getClass().getResource("/Images/carVector.png").toString();
+    @FXML
+    private CheckBox ACcheck;
+    private final String DefaultImagePath = getClass().getResource("/Images/carVector.png").toString();
     private String selectedImage = "";
 
     private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
+    private File SelectedFile = null;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -67,8 +70,15 @@ public class VehiculeController implements Initializable {
         ConfigImageSelect();
         ConfigureComboBoxCarburan();
         ConfigureAddCarBtn();
+        ConfigureViderBTN();
     }
 
+
+    public void ConfigureViderBTN() {
+        ViderBTN.setOnAction(event -> {
+            Vider();
+        });
+    }
 
     public void ConfigureAddCarBtn() {
         AddCarBtn.setOnAction(event -> {
@@ -78,40 +88,85 @@ public class VehiculeController implements Initializable {
                     txtMarque.getText().isEmpty() ||
                     txtImmat.getText().isEmpty() ||
                     txtAnnee.getText().isEmpty() ||
+                    txtRentPrice.getText().isEmpty() ||
+                    txtNbrDoor.getText().isEmpty() ||
+                    GearList.getSelectionModel().isEmpty() ||
                     carburantList.getSelectionModel().isEmpty()) {
                 HelloApplication.ERRORAlert("Attention", "Champs vide", "Merci de remplir tous les champs !");
             } else {
-                String query = String.format("INSERT INTO voiture (`IDAGENCE`, `MARQUE`, `MODELE`, `IMMATRICULE`, `ANNEE`, `CARBURANT`, `img`) VALUES ( '1', '%s', '%s', '%s', '%s', '%s','%s' )", txtMarque.getText(), txtModel.getText(), txtImmat.getText(), txtAnnee.getText(), carburantList.getSelectionModel().getSelectedItem().toString(), selectedImage);
+                String query = String.format("INSERT INTO voiture (`IDAGENCE`, `MARQUE`, `MODELE`, `IMMATRICULE`, `ANNEE`, `CARBURANT`, `img`) VALUES ( '1', '%s', '%s', '%s', '%s', '%s','%s' );", txtMarque.getText(), txtModel.getText(), txtImmat.getText(), txtAnnee.getText(), carburantList.getSelectionModel().getSelectedItem().toString(), selectedImage);
                 try {
                     DbContext.Execute(query);
-                    HelloApplication.InformationAlert("", "", "Voiture Ajouté avec success !");
-                    txtMarque.setText("");
-                    txtModel.setText("");
-                    txtImmat.setText("");
-                    txtAnnee.setText("");
-                    carburantList.getSelectionModel().clearSelection();
-                    selectedImage = "";
-                    carImg.setImage(new Image(DefaultImagePath));
+                    ResultSet result = DbContext.Execute("SELECT IDVOITURE FROM voiture ORDER BY IDVOITURE DESC LIMIT 1;");
+                    if (result.next()) {
+                        int CarID = result.getInt(1);
+                        query = "INSERT INTO `detailvoiture` (`idDetail`, `year`, `doors`, `ac`, `price`, `gear`, `fuel`, `idVoiture`) " +
+                                "VALUES (NULL, '%s', '%s', '%s', '%s', '%s', '%s', '%s');";
+
+                        String year = txtAnnee.getText();
+                        String doors = txtNbrDoor.getText();
+                        String ac = ACcheck.isSelected() ? "T" : "F";
+                        String price = txtRentPrice.getText();
+                        String gear = GearList.getSelectionModel().getSelectedItem().toString();
+                        String fuel = carburantList.getSelectionModel().getSelectedItem().toString();
+                        String idVoiture = CarID + "";
+
+                        query = String.format(query, year, doors, ac, price, gear, fuel, idVoiture);
+                        DbContext.Execute(query);
+                        HelloApplication.copyImageToDestination(SelectedFile);
+                        HelloApplication.InformationAlert("", "", "Voiture Ajouté avec success !");
+                        Vider();
+//                        txtMarque.setText("");
+//                        txtModel.setText("");
+//                        txtImmat.setText("");
+//                        txtAnnee.setText("");
+//                        carburantList.getSelectionModel().clearSelection();
+//                        selectedImage = "";
+//                        carImg.setImage(new Image(DefaultImagePath));
+                    } else {
+                        HelloApplication.InformationAlert("Erreur", "Erreur d'insertion", "une erreur s'est produite lors de l'insertion du véhicule !");
+                    }
+
                 } catch (SQLException e) {
+                    HelloApplication.InformationAlert("Erreur", "Erreur d'insertion", "une erreur s'est produite lors de l'insertion du véhicule !");
                     throw new RuntimeException(e);
                 }
             }
         });
     }
 
+
+    public void Vider() {
+        txtMarque.setText("");
+        txtModel.setText("");
+        txtImmat.setText("");
+        txtAnnee.setText("");
+        carburantList.getSelectionModel().clearSelection();
+        selectedImage = "";
+        txtNbrDoor.setText("");
+        ACcheck.setSelected(false);
+        txtRentPrice.setText("");
+        GearList.getSelectionModel().clearSelection();
+        selectedImage = "";
+        carImg.setImage(new Image(DefaultImagePath));
+        SelectedFile = null;
+    }
+
     public void ConfigImageSelect() {
         carImg.setImage(new Image(DefaultImagePath));
+
         carImg.setOnMouseClicked(event -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Open Image");
             fileChooser.getExtensionFilters().addAll(
                     new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
             File selectedFile = fileChooser.showOpenDialog(((Node) event.getSource()).getScene().getWindow());
-//            HelloApplication.InformationAlert("","",);
             if (selectedFile != null) {
-                String imagePath = selectedFile.getPath().toString();
+                this.SelectedFile = selectedFile;
+                String imagePath = selectedFile.getPath();
+                HelloApplication.InformationAlert("","",SelectedFile.getName());
                 carImg.setImage(new Image(imagePath));
-                selectedImage = imagePath;
+                selectedImage = selectedFile.getName();
             }
         });
     }
@@ -119,6 +174,9 @@ public class VehiculeController implements Initializable {
     public void ConfigureComboBoxCarburan() {
         carburantList.setItems(FXCollections.observableArrayList(
                 "Diesel", "Essence", "Electrique", "Hybrid"
+        ));
+        GearList.setItems(FXCollections.observableArrayList(
+                "AUTOMATIQUE", "MANUEL"
         ));
     }
 
