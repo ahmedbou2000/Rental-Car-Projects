@@ -74,7 +74,7 @@ public class HelloApplication extends Application {
         dialogPane.setPrefWidth(600);
 
         Optional<ButtonType> result = alert.showAndWait();
-        return result.get() == ButtonTy
+        return result.get() == ButtonType.OK;
     }
 
 

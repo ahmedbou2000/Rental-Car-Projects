@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-
 
 <AnchorPane prefHeight="577.0" prefWidth="936.0" style="-fx-background-color: white;" stylesheets="@../../../Styles/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rentaloo.rentaloo.ClientsController">
    <children>
@@ -22,7 +24,33 @@
           </Tab>
           <Tab text="Ajouter Client">
             <content>
-              <AnchorPane fx:id="AddClientPanel" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white;" />
+              <AnchorPane fx:id="AddClientPanel" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white;">
+                     <children>
+                        <AnchorPane fx:id="CarInformationPane" prefHeight="510.0" prefWidth="526.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="410.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <Label layoutX="14.0" layoutY="35.0" text="Nom" AnchorPane.leftAnchor="32.0" />
+                              <TextField fx:id="txtNom" layoutX="32.0" layoutY="68.0" prefHeight="34.0" prefWidth="396.0" promptText="Nom" style="-fx-background-color: whitesmoke; -fx-background-radius: 6px; -fx-border-radius: 6px; -fx-border-color: gray;" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="32.0" />
+                              <Label layoutX="14.0" layoutY="115.0" prefHeight="25.0" prefWidth="71.0" text="Prenom" AnchorPane.leftAnchor="32.0" />
+                              <TextField fx:id="txtPrenom" layoutX="32.0" layoutY="148.0" prefHeight="34.0" prefWidth="396.0" promptText="Prenom" style="-fx-background-color: whitesmoke; -fx-background-radius: 6px; -fx-border-radius: 6px; -fx-border-color: gray;" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="32.0" />
+                              <Label layoutX="14.0" layoutY="195.0" prefHeight="25.0" prefWidth="65.0" text="Adresse" AnchorPane.leftAnchor="32.0" />
+                              <TextField fx:id="txtAdresse" layoutX="32.0" layoutY="228.0" prefHeight="40.0" prefWidth="369.0" promptText="Adresse" style="-fx-background-color: whitesmoke; -fx-background-radius: 6px; -fx-border-radius: 6px; -fx-border-color: gray;" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="33.0" />
+                              <Label layoutX="24.0" layoutY="276.0" text="Email" AnchorPane.leftAnchor="32.0" />
+                              <TextField fx:id="txtEmail" layoutX="42.0" layoutY="309.0" prefHeight="34.0" prefWidth="396.0" promptText="exemple@gmail.com" style="-fx-background-color: whitesmoke; -fx-background-radius: 6px; -fx-border-radius: 6px; -fx-border-color: gray;" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="32.0" />
+                              <Label layoutX="32.0" layoutY="356.0" text="Telephone" />
+                              <TextField fx:id="txtEmail1" layoutX="32.0" layoutY="389.0" prefHeight="37.0" prefWidth="463.0" promptText="exemple@gmail.com" style="-fx-background-color: whitesmoke; -fx-background-radius: 6px; -fx-border-radius: 6px; -fx-border-color: gray;" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="31.0" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane fx:id="CarInformationPane1" layoutX="509.0" layoutY="2.0" prefHeight="510.0" prefWidth="425.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="1.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0">
+                           <children>
+                              <Label layoutX="14.0" layoutY="195.0" prefHeight="25.0" prefWidth="182.0" text="Mot de passe" AnchorPane.leftAnchor="32.0" />
+                              <TextField fx:id="txtPass" layoutX="32.0" layoutY="228.0" prefHeight="40.0" prefWidth="369.0" promptText="mot de passe" style="-fx-background-color: whitesmoke; -fx-background-radius: 6px; -fx-border-radius: 6px; -fx-border-color: gray;" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="33.0" />
+                              <Label layoutX="24.0" layoutY="276.0" text="Confirmé mot de passe" AnchorPane.leftAnchor="32.0" />
+                              <TextField fx:id="txtPassConfirm" layoutX="42.0" layoutY="309.0" prefHeight="34.0" prefWidth="396.0" promptText="confirmé mot de passe" style="-fx-background-color: whitesmoke; -fx-background-radius: 6px; -fx-border-radius: 6px; -fx-border-color: gray;" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="32.0" />
+                              <Button fx:id="btnAddClient" alignment="CENTER" contentDisplay="CENTER" layoutX="27.0" layoutY="390.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="370.0" style="-fx-background-color: green; -fx-background-radius: 6px; -fx-border-radius: 6px;" styleClass="btn" text="valider et enregistrer" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP" />
+                              <Button fx:id="ViderBTN" alignment="CENTER" contentDisplay="CENTER" layoutX="28.0" layoutY="443.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="370.0" style="-fx-background-color: tomato; -fx-background-radius: 6px; -fx-border-radius: 6px;" styleClass="btn" text="vider" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP" />
+                           </children>
+                        </AnchorPane>
+                     </children></AnchorPane>
             </content>
           </Tab>
         </tabs>
