@@ -1,14 +1,22 @@
 package com.rentaloo.rentaloo;
 
+import DbContext.DbContext;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class ClientsController implements Initializable {
@@ -19,6 +27,41 @@ public class ClientsController implements Initializable {
     @FXML
     private TextField txtNom;
 
+    @FXML
+    private AnchorPane AddClientPanel;
+
+    @FXML
+    private AnchorPane CarInformationPane;
+
+    @FXML
+    private AnchorPane CarInformationPane1;
+
+    @FXML
+    private AnchorPane ClientListPanel;
+
+    @FXML
+    private Button ViderBTN;
+
+    @FXML
+    private Button btnAddClient;
+
+    @FXML
+    private TextField txtAdresse;
+
+    @FXML
+    private TextField txtEmail;
+
+    @FXML
+    private TextField txtEmail1;
+
+    @FXML
+    private TextField txtPass;
+
+    @FXML
+    private TextField txtPassConfirm;
+
+    @FXML
+    private TextField txtPrenom;
 
 
     @Override
@@ -29,37 +72,50 @@ public class ClientsController implements Initializable {
     public void ConfigureClientTable(){
         TableColumn<ClientModel,String> NomClientCol = new TableColumn<>("Nom");
         NomClientCol.setCellValueFactory(new PropertyValueFactory<>("NomClient"));
-        NomClientCol.prefWidthProperty().bind(ClientTableList.widthProperty().divide(6));
+        NomClientCol.prefWidthProperty().bind(ClientTableList.widthProperty().divide(5));
 
         TableColumn<ClientModel,String> PrenomClientCol = new TableColumn<>("Prenom");
         PrenomClientCol.setCellValueFactory(new PropertyValueFactory<>("PrenomClient"));
-        PrenomClientCol.prefWidthProperty().bind(ClientTableList.widthProperty().divide(6));
-
-        TableColumn<ClientModel,String> NPermisCol = new TableColumn<>("N°Permis");
-        NPermisCol.setCellValueFactory(new PropertyValueFactory<>("NPermis"));
-        NPermisCol.prefWidthProperty().bind(ClientTableList.widthProperty().divide(6));
+        PrenomClientCol.prefWidthProperty().bind(ClientTableList.widthProperty().divide(5));
 
         TableColumn<ClientModel,String> AdresseClientCol = new TableColumn<>("Adresse");
         AdresseClientCol.setCellValueFactory(new PropertyValueFactory<>("AdresseClient"));
-        AdresseClientCol.prefWidthProperty().bind(ClientTableList.widthProperty().divide(6));
+        AdresseClientCol.prefWidthProperty().bind(ClientTableList.widthProperty().divide(5));
 
         TableColumn<ClientModel,String> TelClientCol = new TableColumn<>("Télephone");
         TelClientCol.setCellValueFactory(new PropertyValueFactory<>("TelClient"));
-        TelClientCol.prefWidthProperty().bind(ClientTableList.widthProperty().divide(6));
+        TelClientCol.prefWidthProperty().bind(ClientTableList.widthProperty().divide(5));
 
         TableColumn<ClientModel,String> EmailClientCol = new TableColumn<>("Email");
         EmailClientCol.setCellValueFactory(new PropertyValueFactory<>("EmailClient"));
-        EmailClientCol.prefWidthProperty().bind(ClientTableList.widthProperty().divide(6));
+        EmailClientCol.prefWidthProperty().bind(ClientTableList.widthProperty().divide(5));
 
-        ClientTableList.getColumns().addAll(NomClientCol,PrenomClientCol,NPermisCol,AdresseClientCol,EmailClientCol,TelClientCol);
+        ClientTableList.getColumns().addAll(NomClientCol,PrenomClientCol,AdresseClientCol,EmailClientCol,TelClientCol);
 
-        ClientTableList.setItems(FXCollections.observableArrayList(
-                new ClientModel("FA191919","BOUKHRISS","MOHAMED","13 RUE 12 HAY QODS OUJDA","BOOUKHRISS@GMAIL.COM","06060606062","SA23/232"),
-                new ClientModel("FA191919","BOUKHRISS","MOHAMED","13 RUE 12 HAY QODS OUJDA","BOOUKHRISS@GMAIL.COM","06060606062","SA23/232"),
-                new ClientModel("FA191919","BOUKHRISS","MOHAMED","13 RUE 12 HAY QODS OUJDA","BOOUKHRISS@GMAIL.COM","06060606062","SA23/232"),
-                new ClientModel("FA191919","BOUKHRISS","MOHAMED","13 RUE 12 HAY QODS OUJDA","BOOUKHRISS@GMAIL.COM","06060606062","SA23/232"),
-                new ClientModel("FA191919","BOUKHRISS","MOHAMED","13 RUE 12 HAY QODS OUJDA","BOOUKHRISS@GMAIL.COM","06060606062","SA23/232")
-        ));
+        List<ClientModel> clients = new ArrayList<>();
+
+        try {
+            // preparing the query to bring all the clients from the databse :
+            ResultSet result = DbContext.Execute("SELECT `IDCLIENT`, `NOM`, `PRENOM`, `ADRESSE`, `EMAIL`, `TEL` FROM `client`");
+            while (result.next()) {
+                // fill the client list from clients in the database:
+                clients.add(new ClientModel(
+                                String.valueOf(result.getInt(1)),
+                                result.getString(2),
+                                result.getString(3),
+                                result.getString(4),
+                                result.getString(5),
+                                result.getString(6)
+                        ));
+            }
+
+            // Fill the table of clients by the list of clients prepared before :
+            ClientTableList.setItems(FXCollections.observableArrayList(clients));
+        } catch (SQLException e) {
+            HelloApplication.InformationAlert("Erreur", "Erreur d'insertion", "une erreur s'est produite lors de l'insertion d'un Client !");
+            throw new RuntimeException(e);
+        }
+        //ClientTableList.setItems();
 
 
     }
@@ -68,15 +124,14 @@ public class ClientsController implements Initializable {
 
     public class ClientModel{
         private String idClient;
-        private String NomClient,PrenomClient,AdresseClient,EmailClient,TelClient,NPermis;
-        public ClientModel(String IdClient,String nomClient,String prenomClient,String adresseClient,String emailClient,String telClient,String Npermis){
+        private String NomClient,PrenomClient,AdresseClient,EmailClient,TelClient;
+        public ClientModel(String IdClient,String nomClient,String prenomClient,String adresseClient,String emailClient,String telClient){
             this.idClient=IdClient;
             this.NomClient = nomClient;
             this.PrenomClient = prenomClient;
             this.AdresseClient = adresseClient;
             this.TelClient= telClient;
             this.EmailClient=emailClient;
-            this.NPermis= Npermis;
         }
 
         public String getIdClient() {
@@ -127,12 +182,5 @@ public class ClientsController implements Initializable {
             TelClient = telClient;
         }
 
-        public String getNPermis() {
-            return NPermis;
-        }
-
-        public void setNPermis(String NPermis) {
-            this.NPermis = NPermis;
-        }
     }
 }

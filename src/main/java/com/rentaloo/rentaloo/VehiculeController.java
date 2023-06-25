@@ -114,15 +114,9 @@ public class VehiculeController implements Initializable {
                         query = String.format(query, year, doors, ac, price, gear, fuel, idVoiture);
                         DbContext.Execute(query);
                         HelloApplication.copyImageToDestination(SelectedFile);
-                        HelloApplication.InformationAlert("", "", "Voiture Ajouté avec success !");
+                        HelloApplication.InformationAlert("Succes", "", "Voiture Ajouté avec success !");
                         Vider();
-//                        txtMarque.setText("");
-//                        txtModel.setText("");
-//                        txtImmat.setText("");
-//                        txtAnnee.setText("");
-//                        carburantList.getSelectionModel().clearSelection();
-//                        selectedImage = "";
-//                        carImg.setImage(new Image(DefaultImagePath));
+
                     } else {
                         HelloApplication.InformationAlert("Erreur", "Erreur d'insertion", "une erreur s'est produite lors de l'insertion du véhicule !");
                     }
