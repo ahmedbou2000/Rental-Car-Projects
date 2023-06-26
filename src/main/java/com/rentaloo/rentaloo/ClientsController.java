@@ -1,6 +1,9 @@
 package com.rentaloo.rentaloo;
 
 import DbContext.DbContext;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableArray;
 import javafx.fxml.FXML;
@@ -11,6 +14,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.Duration;
 
 import java.net.URL;
 import java.sql.ResultSet;
@@ -18,6 +22,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.CompletableFuture;
 
 public class ClientsController implements Initializable {
 
@@ -67,6 +72,13 @@ public class ClientsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ConfigureClientTable();
+
+        // definire un timer pour une execution infinie chaque 5s :
+        Timeline tenSecondsTimer = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
+            Platform.runLater(this::ConfigureClientTable);
+        }));
+        tenSecondsTimer.setCycleCount(Timeline.INDEFINITE);
+        tenSecondsTimer.play();
     }
 
     public void ConfigureClientTable(){
@@ -92,30 +104,34 @@ public class ClientsController implements Initializable {
 
         ClientTableList.getColumns().addAll(NomClientCol,PrenomClientCol,AdresseClientCol,EmailClientCol,TelClientCol);
 
-        List<ClientModel> clients = new ArrayList<>();
+        CompletableFuture.supplyAsync(() -> {
 
-        try {
-            // preparing the query to bring all the clients from the databse :
-            ResultSet result = DbContext.Execute("SELECT `IDCLIENT`, `NOM`, `PRENOM`, `ADRESSE`, `EMAIL`, `TEL` FROM `client`");
-            while (result.next()) {
-                // fill the client list from clients in the database:
-                clients.add(new ClientModel(
-                                String.valueOf(result.getInt(1)),
-                                result.getString(2),
-                                result.getString(3),
-                                result.getString(4),
-                                result.getString(5),
-                                result.getString(6)
-                        ));
-            }
+                    List<ClientModel> clients = new ArrayList<>();
 
-            // Fill the table of clients by the list of clients prepared before :
-            ClientTableList.setItems(FXCollections.observableArrayList(clients));
-        } catch (SQLException e) {
-            HelloApplication.InformationAlert("Erreur", "Erreur d'insertion", "une erreur s'est produite lors de l'insertion d'un Client !");
-            throw new RuntimeException(e);
-        }
-        //ClientTableList.setItems();
+                    try {
+                        // preparing the query to bring all the clients from the databse :
+                        ResultSet result = DbContext.Execute("SELECT `IDCLIENT`, `NOM`, `PRENOM`, `ADRESSE`, `EMAIL`, `TEL` FROM `client`");
+                        while (result.next()) {
+                            // fill the client list from clients in the database:
+                            clients.add(new ClientModel(
+                                    String.valueOf(result.getInt(1)),
+                                    result.getString(2),
+                                    result.getString(3),
+                                    result.getString(4),
+                                    result.getString(5),
+                                    result.getString(6)
+                            ));
+                        }
+                        return FXCollections.observableArrayList(clients);
+                    } catch (SQLException e) {
+                        HelloApplication.InformationAlert("Erreur", "Erreur d'insertion", "une erreur s'est produite lors de l'insertion d'un Client !");
+                        throw new RuntimeException(e);
+                    }
+                }).thenAcceptAsync(clients -> {
+                        // Fill the table of clients by the list of clients prepared before :
+                        ClientTableList.setItems(clients);
+                }, Platform::runLater);
+
 
 
     }
