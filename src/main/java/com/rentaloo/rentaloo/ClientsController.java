@@ -6,6 +6,7 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableArray;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -57,10 +58,10 @@ public class ClientsController implements Initializable {
     private TextField txtEmail;
 
     @FXML
-    private TextField txtEmail1;
+    private TextField txtPass;
 
     @FXML
-    private TextField txtPass;
+    private TextField txtTelephone;
 
     @FXML
     private TextField txtPassConfirm;
@@ -136,6 +137,68 @@ public class ClientsController implements Initializable {
 
     }
 
+    public void btnAddClient_Click(ActionEvent actionEvent) throws Exception {
+        // ajouter le client au base de données :
+        try {
+            // preparer la requette
+            String query = "INSERT INTO `client`(`IDCLIENT`, `NOM`, `PRENOM`, `ADRESSE`, `EMAIL`, `TEL`, `mdp`, `status`) " +
+                    "VALUES  (NULL, '%s', '%s', '%s', '%s', '%s', '%s', 'Comfirmé');";
+
+            // preparer les données entrés par l'utilisateur :
+            String nom = txtNom.getText();
+            String prenom = txtPrenom.getText();
+            String adresse = txtAdresse.getText();
+            String email = txtEmail.getText();
+            String telephone = txtTelephone.getText();
+            String mdp1 = txtPass.getText();
+            String mdp2 = txtPassConfirm.getText();
+
+            // Verifier si les informations en bien eté entrées :
+            if (nom.trim().isEmpty() ||
+                    prenom.trim().isEmpty() ||
+                    adresse.trim().isEmpty() ||
+                    email.trim().isEmpty() ||
+                    telephone.trim().isEmpty() ||
+                    mdp1.trim().isEmpty() ||
+                    mdp2.trim().isEmpty()
+            ){
+                // un ou plusieurs champs sont vides :
+                HelloApplication.InformationAlert("Erreur", "Manque d'Information", "Merci de remplir tous les champs !");
+                return ;
+            } else if (!mdp1.equals(mdp2)) {
+                // le mot de passe de comfirmation n'est pas identique au premier :
+                HelloApplication.InformationAlert("Erreur", "Faux Informations", "le mot de passe de comfirmation n'est pas identique au premier !");
+                return;
+            }
+
+            // Ajouter le client à la base de données :
+            query = String.format(query, nom, prenom, adresse, email, telephone, mdp1);
+            DbContext.Execute(query);
+            HelloApplication.InformationAlert("Succes", "", "Client Ajouté avec success !");
+            Vider();
+
+        }catch (Exception e){
+            HelloApplication.InformationAlert("Erreur", "Erreur d'insertion", "Nous n'avons pas pu enregistrer le client. Un problème a été rencontré. Merci de réessayer l'opération.");
+            throw new Exception();
+        }
+
+
+    }
+
+    private void Vider() {
+        // vider les champs du formulaire  :
+        txtNom.setText("");
+        txtPrenom.setText("");
+        txtAdresse.setText("");
+        txtEmail.setText("");
+        txtTelephone.setText("");
+        txtPassConfirm.setText("");
+        txtPass.setText("");
+
+    }
+
+    public void btnVider_Click(ActionEvent actionEvent) {
+    }
 
 
     public class ClientModel{
