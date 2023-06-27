@@ -1,5 +1,6 @@
 package com.rentaloo.rentaloo;
 
+import DbContext.DbContext;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -17,9 +18,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
 import java.net.URL;
+import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutionException;
 
 public class StatsController implements Initializable {
 
@@ -39,12 +42,20 @@ public class StatsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Resize();
-        ConfigureStatsItem(StatsItem1, StatsItem1img, StatsItem1title, StatsItem1value, "car_pending.png", "Réservation En Attente", "4", 120, 120);
+        try {
+            // get data for statistics :
+            String nbrReservationsEnAttentes = getReservationEnAttente();
+
+
+            ConfigureStatsItem(StatsItem1, StatsItem1img, StatsItem1title, StatsItem1value, "car_pending.png", "Réservation En Attente", nbrReservationsEnAttentes, 120, 120);
+
         ConfigureStatsItem(StatsItem2, StatsItem2img, StatsItem2title, StatsItem2value, "contract_car.png", "Contrat En Cours", "3", 100, 100);
         ConfigureStatsItem(StatsItem3, StatsItem3img, StatsItem3title, StatsItem3value, "location_month.png", "Véhicule Libre", "2", 100, 100);
         ConfigureChart();
         configureTableLastRent();
 
+
+        }catch (Exception e){ }
     }
 
     public void Resize() {
@@ -90,7 +101,7 @@ public class StatsController implements Initializable {
     public void ConfigureChart() {
         XYChart.Series<String, Number> dataSeries = new XYChart.Series<>();
 
-        ChartItem.setTitle("Nombre de location Durant" + LocalDate.now().getYear());
+        ChartItem.setTitle("Nombre de location Durant " + LocalDate.now().getYear());
 
         // Add data to the series
         dataSeries.getData().add(new XYChart.Data<>("Janvier", 10));
@@ -142,6 +153,23 @@ public class StatsController implements Initializable {
 
 //        tableLastRent.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
+    }
+
+    public String getReservationEnAttente() throws Exception {
+        String stringNbrReservationEnAttentes = "0" ;
+        try {
+            // get : les reservation en attente ( les reservation où le status = ''en attente''
+            ResultSet result = DbContext.Execute("SELECT COUNT(*) FROM `detail` WHERE STATUT = 'en attente'");
+            result.next();
+            int nbrReservationEnAttente =  result.getInt(1);
+            stringNbrReservationEnAttentes = String.valueOf(nbrReservationEnAttente);
+
+        }catch (Exception e){
+            HelloApplication.InformationAlert("Erreur", "", "Erreur lors de l'affichage des données (Reservations En Attente");
+            throw new Exception();
+        }
+
+        return stringNbrReservationEnAttentes;
     }
 
     public static class Rent {
