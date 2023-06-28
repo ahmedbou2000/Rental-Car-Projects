@@ -2,6 +2,7 @@ package com.rentaloo.rentaloo;
 
 import DbContext.DbContext;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -43,24 +44,7 @@ public class ReservationController implements Initializable {
         }catch (Exception e){
             throw new RuntimeException(e);
         }
-            Resize();
 
-        btnAojuterResevation.setOnAction(event -> {
-
-            String nom = "";
-            ResultSet rs = null;
-            try {
-                rs = DbContext.Execute("select * from client");
-                while (rs.next()) {
-                    nom = rs.getString("PRENOM");
-                    HelloApplication.InformationAlert("", "", nom);
-                }
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-
-
-        });
     }
 
 
@@ -156,18 +140,6 @@ public class ReservationController implements Initializable {
         });
     }
 
-    //This method is for resizing all Controlls
-    public void Resize() {
-        ClientInfoSide.prefWidthProperty().bind(AddLocationContainer.widthProperty().divide(2));
-        ReservationInfoSide.prefWidthProperty().bind(AddLocationContainer.widthProperty().divide(2));
-        TxtNom.prefWidthProperty().bind(ClientInfoSide.widthProperty().multiply(0.43));
-        TxtPrenom.prefWidthProperty().bind(ClientInfoSide.widthProperty().multiply(0.43));
-        TxtCIN.prefWidthProperty().bind(ClientInfoSide.widthProperty().multiply(0.43));
-        TxtNPermis.prefWidthProperty().bind(ClientInfoSide.widthProperty().multiply(0.43));
-        LbPrenom.prefWidthProperty().bind(TxtNPermis.widthProperty());
-        LbPERMIS.prefWidthProperty().bind(TxtNPermis.widthProperty());
-    }
-
 
     private void remplirReservationsTable () throws Exception {
         // get data :
@@ -226,6 +198,14 @@ public class ReservationController implements Initializable {
         }catch(Exception e){
             throw new Exception();
         }
+    }
+
+    public void btnAjouterReservation_Click(ActionEvent actionEvent) {
+
+
+    }
+
+    public void btnAnnuler_Click(ActionEvent actionEvent) {
     }
 
     //this is a class Model for showing data in Reservation Table
