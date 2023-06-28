@@ -93,32 +93,10 @@ public class ReservationController implements Initializable {
 
         RentalListTable.getColumns().clear();
         RentalListTable.getColumns().addAll(numReservationCol,immatriculeCol, NomCompletCol, DepartCol, RetourCol);
-        try {
-            // get data :
-            ResultSet result = DbContext.Execute("SELECT r.idReservation , v.IMMATRICULE , CONCAT(c.NOM, \" \" ,c.PRENOM) as 'NomComplet' , r.DATEDEBUT , r.DATEFIN \n" +
-                    "FROM reservation r\n" +
-                    "INNER JOIN detail d on d.IDRESERVATION = r.IDRESERVATION\n" +
-                    "INNER JOIN voiture v on v.IDVOITURE = r.IDVOITURE \n" +
-                    "INNER JOIN client c on c.IDCLIENT = r.IDCLIENT\n" +
-                    "WHERE d.STATUT = 'comfirmé' " +
-                    "ORDER BY r.idReservation DESC");
 
-            List<StatsController.Rent> listLocations = new ArrayList<>();
-            while (result.next()) {
-                listLocations.add(new StatsController.Rent(
-                        result.getString("idReservation"),
-                        result.getString("immatricule"),
-                        result.getString("NomComplet"),
-                        result.getString("dateDebut"),
-                        result.getString("dateFin")
-                ));
-            }
-                // set the data to the table :
-                RentalListTable.setItems(FXCollections.observableArrayList(listLocations));
+        // remplir la table des locations :
+        remplirLocationsTable();
 
-        }catch(Exception e){
-            throw new Exception();
-        }
     }
 
     //this method is a  configuration for Reservation List Table
@@ -149,8 +127,51 @@ public class ReservationController implements Initializable {
         ReservationListTable.getColumns().clear();
         ReservationListTable.getColumns().addAll(numReservationCol, immatriculeCol, NomComplet, DateDepart, DateRetour);
 
+        // remplir la table des reservations :
+        remplirReservationsTable();
+
+        //Mouse Click Event
+        ReservationListTable.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.SECONDARY) {
+                Object mdl = ReservationListTable.getSelectionModel().getSelectedItem();
+
+                StatsController.Rent reservationSelectionnee = (StatsController.Rent) mdl;
+                if (HelloApplication.ConfirmationAlert("Confirmation", "Confirmé cette reservation ?", "Voulez-vous confirmé cette reservations N°"+reservationSelectionnee.getNumReservation()+" du client : "+ reservationSelectionnee.getNomComplet()+" ?"))
+                {
+                    try {
+                        // Comfirmer la reservation du client (update the statut to 'comfirmé') :
+                        DbContext.Execute("UPDATE `detail` SET `STATUT`='comfirmé' WHERE IDRESERVATION = "+reservationSelectionnee.getNumReservation()+"");
+
+                        HelloApplication.InformationAlert("Success", "", "La reservation N° "+reservationSelectionnee.getNumReservation()+" est Comfirmé !");
+
+                        // refresh the data :
+                        remplirReservationsTable();
+                        remplirLocationsTable();
+                    }catch (Exception e){
+                        HelloApplication.ERRORAlert("Erreur", "Erreur de modification", "On a pas pu comfirmé la reservation !!!");
+                    }
+
+                }
+            }
+        });
+    }
+
+    //This method is for resizing all Controlls
+    public void Resize() {
+        ClientInfoSide.prefWidthProperty().bind(AddLocationContainer.widthProperty().divide(2));
+        ReservationInfoSide.prefWidthProperty().bind(AddLocationContainer.widthProperty().divide(2));
+        TxtNom.prefWidthProperty().bind(ClientInfoSide.widthProperty().multiply(0.43));
+        TxtPrenom.prefWidthProperty().bind(ClientInfoSide.widthProperty().multiply(0.43));
+        TxtCIN.prefWidthProperty().bind(ClientInfoSide.widthProperty().multiply(0.43));
+        TxtNPermis.prefWidthProperty().bind(ClientInfoSide.widthProperty().multiply(0.43));
+        LbPrenom.prefWidthProperty().bind(TxtNPermis.widthProperty());
+        LbPERMIS.prefWidthProperty().bind(TxtNPermis.widthProperty());
+    }
+
+
+    private void remplirReservationsTable () throws Exception {
+        // get data :
         try {
-            // get data :
             ResultSet result = DbContext.Execute("SELECT r.idReservation , v.IMMATRICULE , CONCAT(c.NOM, \" \" ,c.PRENOM) as 'NomComplet' , r.DATEDEBUT , r.DATEFIN \n" +
                     "FROM reservation r\n" +
                     "INNER JOIN detail d on d.IDRESERVATION = r.IDRESERVATION\n" +
@@ -171,37 +192,40 @@ public class ReservationController implements Initializable {
             }
             // set the data to the table :
             ReservationListTable.setItems(FXCollections.observableArrayList(listReservations));
-
         }catch(Exception e){
             throw new Exception();
         }
 
-        //Mouse Click Event
-        ReservationListTable.setOnMouseClicked(event -> {
-            if (event.getButton() == MouseButton.SECONDARY) {
-                Object mdl = ReservationListTable.getSelectionModel().getSelectedItem();
 
-                StatsController.Rent reservationSelectionnee = (StatsController.Rent) mdl;
-                if (HelloApplication.ConfirmationAlert("Confirmation", "Confirmé cette reservation ?", "Voulez-vous confirmé cette reservations du client : "+ reservationSelectionnee.getNomComplet()+" ?")) {
-                    // Comfirmer la reservation du client :
-
-
-                    HelloApplication.InformationAlert("Success", "", "Reservation Comfirmé !");
-                }
-            }
-        });
     }
 
-    //This method is for resizing all Controlls
-    public void Resize() {
-        ClientInfoSide.prefWidthProperty().bind(AddLocationContainer.widthProperty().divide(2));
-        ReservationInfoSide.prefWidthProperty().bind(AddLocationContainer.widthProperty().divide(2));
-        TxtNom.prefWidthProperty().bind(ClientInfoSide.widthProperty().multiply(0.43));
-        TxtPrenom.prefWidthProperty().bind(ClientInfoSide.widthProperty().multiply(0.43));
-        TxtCIN.prefWidthProperty().bind(ClientInfoSide.widthProperty().multiply(0.43));
-        TxtNPermis.prefWidthProperty().bind(ClientInfoSide.widthProperty().multiply(0.43));
-        LbPrenom.prefWidthProperty().bind(TxtNPermis.widthProperty());
-        LbPERMIS.prefWidthProperty().bind(TxtNPermis.widthProperty());
+    private void remplirLocationsTable () throws Exception {
+        try {
+            // get data :
+            ResultSet result = DbContext.Execute("SELECT r.idReservation , v.IMMATRICULE , CONCAT(c.NOM, \" \" ,c.PRENOM) as 'NomComplet' , r.DATEDEBUT , r.DATEFIN \n" +
+                    "FROM reservation r\n" +
+                    "INNER JOIN detail d on d.IDRESERVATION = r.IDRESERVATION\n" +
+                    "INNER JOIN voiture v on v.IDVOITURE = r.IDVOITURE \n" +
+                    "INNER JOIN client c on c.IDCLIENT = r.IDCLIENT\n" +
+                    "WHERE d.STATUT = 'comfirmé' " +
+                    "ORDER BY r.idReservation DESC");
+
+            List<StatsController.Rent> listLocations = new ArrayList<>();
+            while (result.next()) {
+                listLocations.add(new StatsController.Rent(
+                        result.getString("idReservation"),
+                        result.getString("immatricule"),
+                        result.getString("NomComplet"),
+                        result.getString("dateDebut"),
+                        result.getString("dateFin")
+                ));
+            }
+            // set the data to the table :
+            RentalListTable.setItems(FXCollections.observableArrayList(listLocations));
+
+        }catch(Exception e){
+            throw new Exception();
+        }
     }
 
     //this is a class Model for showing data in Reservation Table
