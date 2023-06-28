@@ -45,14 +45,15 @@ public class StatsController implements Initializable {
         try {
             // get data for statistics :
             String nbrReservationsEnAttentes = getReservationEnAttente();
-
+            String nbrContratsEnCours = getContratsEnCours();
 
             ConfigureStatsItem(StatsItem1, StatsItem1img, StatsItem1title, StatsItem1value, "car_pending.png", "Réservation En Attente", nbrReservationsEnAttentes, 120, 120);
+            ConfigureStatsItem(StatsItem2, StatsItem2img, StatsItem2title, StatsItem2value, "contract_car.png", "Contrat En Cours", nbrContratsEnCours, 100, 100);
+            ConfigureStatsItem(StatsItem3, StatsItem3img, StatsItem3title, StatsItem3value, "location_month.png", "Véhicule Libre", "2", 100, 100);
 
-        ConfigureStatsItem(StatsItem2, StatsItem2img, StatsItem2title, StatsItem2value, "contract_car.png", "Contrat En Cours", "3", 100, 100);
-        ConfigureStatsItem(StatsItem3, StatsItem3img, StatsItem3title, StatsItem3value, "location_month.png", "Véhicule Libre", "2", 100, 100);
-        ConfigureChart();
-        configureTableLastRent();
+            ConfigureChart();
+
+            configureTableLastRent();
 
 
         }catch (Exception e){ }
@@ -170,6 +171,27 @@ public class StatsController implements Initializable {
         }
 
         return stringNbrReservationEnAttentes;
+    }
+
+    public String getContratsEnCours() throws Exception{
+        String stringNbrContratsEnCours = "0" ;
+        try {
+            // get : les reservation en attente ( les reservation où le status = ''en attente''
+            ResultSet result = DbContext.Execute("SELECT COUNT(*) \n" +
+                                                    "FROM `reservation` r\n" +
+                                                    "INNER JOIN detail d ON d.IDRESERVATION = r.IDRESERVATION\n" +
+                                                    "WHERE d.STATUT = 'comfirmé' AND CURRENT_DATE() BETWEEN r.DATEDEBUT AND r.DATEFIN;");
+            result.next();
+            int nbrReservationEnAttente =  result.getInt(1);
+            stringNbrContratsEnCours = String.valueOf(nbrReservationEnAttente);
+
+        }catch (Exception e){
+            HelloApplication.InformationAlert("Erreur", "", "Erreur lors de l'affichage des données (Reservations En Attente");
+            throw new Exception();
+        }
+
+        return stringNbrContratsEnCours;
+
     }
 
     public static class Rent {
