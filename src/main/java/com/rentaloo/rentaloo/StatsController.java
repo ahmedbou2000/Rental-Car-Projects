@@ -2,27 +2,21 @@ package com.rentaloo.rentaloo;
 
 import DbContext.DbContext;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
 import java.net.URL;
 import java.sql.ResultSet;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.ResourceBundle;
-import java.util.concurrent.ExecutionException;
 
 public class StatsController implements Initializable {
 
@@ -44,12 +38,13 @@ public class StatsController implements Initializable {
         Resize();
         try {
             // get data for statistics :
-            String nbrReservationsEnAttentes = getReservationEnAttente();
-            String nbrContratsEnCours = getContratsEnCours();
+            String nbrReservationsEnAttentes = getReservationEnAttenteCount();
+            String nbrContratsEnCours = getContratsEnCoursCount();
+            String nbrVehiculesLibires = getVerhiculesLibresCount();
 
             ConfigureStatsItem(StatsItem1, StatsItem1img, StatsItem1title, StatsItem1value, "car_pending.png", "Réservation En Attente", nbrReservationsEnAttentes, 120, 120);
             ConfigureStatsItem(StatsItem2, StatsItem2img, StatsItem2title, StatsItem2value, "contract_car.png", "Contrat En Cours", nbrContratsEnCours, 100, 100);
-            ConfigureStatsItem(StatsItem3, StatsItem3img, StatsItem3title, StatsItem3value, "location_month.png", "Véhicule Libre", "2", 100, 100);
+            ConfigureStatsItem(StatsItem3, StatsItem3img, StatsItem3title, StatsItem3value, "location_month.png", "Véhicule Libre", nbrVehiculesLibires, 100, 100);
 
             ConfigureChart();
 
@@ -58,6 +53,8 @@ public class StatsController implements Initializable {
 
         }catch (Exception e){ }
     }
+
+
 
     public void Resize() {
         StatsContainer.prefHeightProperty().bind(StatsPane.heightProperty().multiply(0.25));
@@ -99,26 +96,69 @@ public class StatsController implements Initializable {
         valueLabel.setText(value);
     }
 
-    public void ConfigureChart() {
+    public void ConfigureChart() throws Exception {
         XYChart.Series<String, Number> dataSeries = new XYChart.Series<>();
 
         ChartItem.setTitle("Nombre de location Durant " + LocalDate.now().getYear());
 
-        // Add data to the series
-        dataSeries.getData().add(new XYChart.Data<>("Janvier", 10));
-        dataSeries.getData().add(new XYChart.Data<>("Février", 20));
-        dataSeries.getData().add(new XYChart.Data<>("Avril", 30));
-        dataSeries.getData().add(new XYChart.Data<>("Mai", 30));
-        dataSeries.getData().add(new XYChart.Data<>("Juin", 20));
-        dataSeries.getData().add(new XYChart.Data<>("Juillet", 30));
-        dataSeries.getData().add(new XYChart.Data<>("Aôut", 60));
-        dataSeries.getData().add(new XYChart.Data<>("Septembre", 50));
-        dataSeries.getData().add(new XYChart.Data<>("Octobre", 30));
-        dataSeries.getData().add(new XYChart.Data<>("Novembre", 10));
-        dataSeries.getData().add(new XYChart.Data<>("Décembre", 70));
+        // get data for each month 1 to 12 for the currentYear :
+        try {
+            int nbrLocationsJanvier = getLocationsForTheCurrentYear(1);
+            int nbrLocationsFevrier = getLocationsForTheCurrentYear(2);
+            int nbrLocationsMars = getLocationsForTheCurrentYear(3);
+            int nbrLocationsAvril = getLocationsForTheCurrentYear(4);
+            int nbrLocationsMai = getLocationsForTheCurrentYear(5);
+            int nbrLocationsJuin = getLocationsForTheCurrentYear(6);
+            int nbrLocationsJuillet = getLocationsForTheCurrentYear(7);
+            int nbrLocationsAout = getLocationsForTheCurrentYear(8);
+            int nbrLocationsSeptembre = getLocationsForTheCurrentYear(9);
+            int nbrLocationsOctobre= getLocationsForTheCurrentYear(10);
+            int nbrLocationsNovembre = getLocationsForTheCurrentYear(11);
+            int nbrLocationsDecembre = getLocationsForTheCurrentYear(12);
+
+
+
+            // Add data to the series
+        dataSeries.getData().add(new XYChart.Data<>("Janvier", nbrLocationsJanvier));
+        dataSeries.getData().add(new XYChart.Data<>("Février", nbrLocationsFevrier));
+            dataSeries.getData().add(new XYChart.Data<>("Mars", nbrLocationsMars));
+            dataSeries.getData().add(new XYChart.Data<>("Avril", nbrLocationsAvril));
+        dataSeries.getData().add(new XYChart.Data<>("Mai", nbrLocationsMai));
+        dataSeries.getData().add(new XYChart.Data<>("Juin", nbrLocationsJuin));
+        dataSeries.getData().add(new XYChart.Data<>("Juillet", nbrLocationsJuillet));
+        dataSeries.getData().add(new XYChart.Data<>("Aôut", nbrLocationsAout));
+        dataSeries.getData().add(new XYChart.Data<>("Septembre", nbrLocationsSeptembre));
+        dataSeries.getData().add(new XYChart.Data<>("Octobre", nbrLocationsOctobre));
+        dataSeries.getData().add(new XYChart.Data<>("Novembre", nbrLocationsNovembre));
+        dataSeries.getData().add(new XYChart.Data<>("Décembre", nbrLocationsDecembre));
+
+        }catch (Exception e){
+            throw  new Exception();
+        }
 
         ChartItem.getData().add(dataSeries);
         ChartItem.setLegendVisible(false);
+    }
+
+    private int getLocationsForTheCurrentYear(int month) throws Exception {
+        try {
+            // get : les Locations par mois de l'année courante :
+            ResultSet result = DbContext.Execute("SELECT COUNT(*)\n" +
+                                                    "from reservation r \n" +
+                                                    "where r.IDRESERVATION in (SELECT DISTINCT r.IDRESERVATION\n" +
+                                                    "FROM reservation r\n" +
+                                                    "INNER JOIN detail d on d.IDRESERVATION = r.IDRESERVATION\n" +
+                                                    "WHERE d.STATUT = 'comfirmé'\n" +
+                                                    "    AND (YEAR(r.DATEDEBUT) = YEAR(CURRENT_DATE()) OR YEAR(r.DATEFIN) = YEAR(CURRENT_DATE()))\n" +
+                                                    "    AND (MONTH(r.DATEDEBUT) = "+month+" OR MONTH(r.DATEFIN) = "+month+"));");
+            result.next();
+            int NbrLocations =  result.getInt(1);
+
+            return NbrLocations;
+        }catch (Exception e){
+            HelloApplication.InformationAlert("Erreur", "", "Erreur lors de l'affichage des données (Reservations En Attente");
+            throw new Exception();
+        }
     }
 
     public void configureTableLastRent() {
@@ -156,7 +196,7 @@ public class StatsController implements Initializable {
 
     }
 
-    public String getReservationEnAttente() throws Exception {
+    public String getReservationEnAttenteCount() throws Exception {
         String stringNbrReservationEnAttentes = "0" ;
         try {
             // get : les reservation en attente ( les reservation où le status = ''en attente''
@@ -173,20 +213,20 @@ public class StatsController implements Initializable {
         return stringNbrReservationEnAttentes;
     }
 
-    public String getContratsEnCours() throws Exception{
+    public String getContratsEnCoursCount() throws Exception{
         String stringNbrContratsEnCours = "0" ;
         try {
-            // get : les reservation en attente ( les reservation où le status = ''en attente''
+            // get : les contrats en Cours
             ResultSet result = DbContext.Execute("SELECT COUNT(*) \n" +
                                                     "FROM `reservation` r\n" +
                                                     "INNER JOIN detail d ON d.IDRESERVATION = r.IDRESERVATION\n" +
                                                     "WHERE d.STATUT = 'comfirmé' AND CURRENT_DATE() BETWEEN r.DATEDEBUT AND r.DATEFIN;");
             result.next();
-            int nbrReservationEnAttente =  result.getInt(1);
-            stringNbrContratsEnCours = String.valueOf(nbrReservationEnAttente);
+            int NbrContratsEnCours =  result.getInt(1);
+            stringNbrContratsEnCours = String.valueOf(NbrContratsEnCours);
 
         }catch (Exception e){
-            HelloApplication.InformationAlert("Erreur", "", "Erreur lors de l'affichage des données (Reservations En Attente");
+            HelloApplication.InformationAlert("Erreur", "", "Erreur lors de l'affichage des données (Contrats en cours)");
             throw new Exception();
         }
 
@@ -194,6 +234,29 @@ public class StatsController implements Initializable {
 
     }
 
+    private String getVerhiculesLibresCount() throws Exception{
+        String stringNbrVehiculesLibres = "0";
+        try {
+            // get : les vehicules libres :
+            ResultSet result = DbContext.Execute("SELECT COUNT(*) \n" +
+                                                    "FROM voiture v \n" +
+                                                    "WHERE v.IDVOITURE NOT IN (SELECT DISTINCT v.IDVOITURE\n" +
+                                                    "FROM `reservation` r\n" +
+                                                    "INNER JOIN detail d ON d.IDRESERVATION = r.IDRESERVATION\n" +
+                                                    "inner join voiture v on v.IDVOITURE = r.IDVOITURE\n" +
+                                                    "WHERE d.STATUT = 'comfirmé' AND CURRENT_DATE() BETWEEN r.DATEDEBUT AND r.DATEFIN );");
+            result.next();
+            int NbrVehiculesLibres = result.getInt(1);
+            stringNbrVehiculesLibres = String.valueOf(NbrVehiculesLibres);
+
+        } catch (Exception e) {
+            HelloApplication.InformationAlert("Erreur", "", "Erreur lors de l'affichage des données (Vehicules libres");
+            throw new Exception();
+        }
+
+        return stringNbrVehiculesLibres;
+
+    }
     public static class Rent {
         private String Immatriculation;
         private String NomComplet;
