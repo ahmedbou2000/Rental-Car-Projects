@@ -16,6 +16,8 @@ import javafx.scene.layout.*;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class StatsController implements Initializable {
@@ -161,38 +163,61 @@ public class StatsController implements Initializable {
         }
     }
 
-    public void configureTableLastRent() {
+    public void configureTableLastRent() throws Exception {
+
+
+        TableColumn<Rent, String> numReservationCol = new TableColumn<>("N° Reservation");
+        numReservationCol.setCellValueFactory(new PropertyValueFactory<>("NumReservation"));
+        numReservationCol.prefWidthProperty().bind(tableLastRent.widthProperty().divide(5));
+
         TableColumn<Rent, String> immatriculeCol = new TableColumn<>("Immatriculation");
         immatriculeCol.setCellValueFactory(new PropertyValueFactory<>("Immatriculation"));
-        immatriculeCol.prefWidthProperty().bind(tableLastRent.widthProperty().divide(4));
+        immatriculeCol.prefWidthProperty().bind(tableLastRent.widthProperty().divide(5));
         immatriculeCol.setMaxWidth(Double.MAX_VALUE);
 
         TableColumn<Rent, String> NomCompletCol = new TableColumn<>("NomComplet");
         NomCompletCol.setCellValueFactory(new PropertyValueFactory<>("NomComplet"));
-        NomCompletCol.prefWidthProperty().bind(tableLastRent.widthProperty().divide(4));
+        NomCompletCol.prefWidthProperty().bind(tableLastRent.widthProperty().divide(5));
         NomCompletCol.setMaxWidth(Double.MAX_VALUE);
 
         TableColumn<Rent, String> DepartCol = new TableColumn<>("DateDepart");
         DepartCol.setCellValueFactory(new PropertyValueFactory<>("DateDepart"));
-        DepartCol.prefWidthProperty().bind(tableLastRent.widthProperty().divide(4));
+        DepartCol.prefWidthProperty().bind(tableLastRent.widthProperty().divide(5));
         DepartCol.setMaxWidth(Double.MAX_VALUE);
 
         TableColumn<Rent, String> RetourCol = new TableColumn<>("DateRetour");
         RetourCol.setCellValueFactory(new PropertyValueFactory<>("DateRetour"));
-        RetourCol.prefWidthProperty().bind(tableLastRent.widthProperty().divide(4));
+        RetourCol.prefWidthProperty().bind(tableLastRent.widthProperty().divide(5));
         RetourCol.setMaxWidth(Double.MAX_VALUE);
 
         tableLastRent.getColumns().removeAll();
-        tableLastRent.getColumns().addAll(immatriculeCol, NomCompletCol, DepartCol, RetourCol);
+        tableLastRent.getColumns().addAll(numReservationCol, immatriculeCol, NomCompletCol, DepartCol, RetourCol);
 
-        tableLastRent.setItems(FXCollections.observableArrayList(
-                new Rent("12345-A-49","BOUKHRISS MOHAMED","01/05/2023","12/05/2023"),
-                new Rent("12346-A-49","BENAISSATI AHMED","02/05/2023","21/05/2023"),
-                new Rent("12347-A-49","CHIKOUR KAMEL","06/05/2023","30/05/2023"),
-                new Rent("12348-A-49","BELAMIN JAWAD","02/05/2023","13/05/2023")
-        ));
 
-//        tableLastRent.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        try{
+            // get reservations en cours :
+
+            ResultSet result = DbContext.Execute("SELECT r.idReservation , v.IMMATRICULE , CONCAT(c.NOM, \" \" ,c.PRENOM) as 'NomComplet' , r.DATEDEBUT , r.DATEFIN \n" +
+                                                        "FROM reservation r\n" +
+                                                        "INNER JOIN detail d on d.IDRESERVATION = r.IDRESERVATION\n" +
+                                                        "INNER JOIN voiture v on v.IDVOITURE = r.IDVOITURE \n" +
+                                                        "INNER JOIN client c on c.IDCLIENT = r.IDCLIENT\n" +
+                                                        "WHERE d.STATUT = 'comfirmé' and CURRENT_DATE() BETWEEN r.DATEDEBUT and r.DATEFIN");
+            List<Rent> listReservationsEnCours = new ArrayList<>();
+            while (result.next()){
+                listReservationsEnCours.add(new Rent(
+                                                    result.getString("idReservation"),
+                                                    result.getString("immatricule"),
+                                                    result.getString("NomComplet"),
+                                                    result.getString("dateDebut"),
+                                                    result.getString("dateFin")
+                        ));
+            }
+
+        tableLastRent.setItems(FXCollections.observableArrayList(listReservationsEnCours));
+        }catch (Exception e){
+            throw new Exception();
+        }
 
     }
 
@@ -258,13 +283,16 @@ public class StatsController implements Initializable {
 
     }
     public static class Rent {
+
+        private String NumReservation;
         private String Immatriculation;
         private String NomComplet;
 
         private String DateDepart;
         private String DateRetour;
 
-        public Rent(String immat, String nomComplet, String depart, String retour) {
+        public Rent(String numReservation, String immat, String nomComplet, String depart, String retour) {
+            this.NumReservation = numReservation;
             this.Immatriculation = immat;
             this.NomComplet = nomComplet;
             this.DateDepart = depart;
@@ -274,6 +302,14 @@ public class StatsController implements Initializable {
 
         public String getImmatriculation() {
             return Immatriculation;
+        }
+
+        public void setNumReservation(String numReservation){
+            this.NumReservation = numReservation;
+        }
+
+        public String getNumReservation(){
+            return this.NumReservation;
         }
 
         public void setImmatriculation(String immatriculation) {
