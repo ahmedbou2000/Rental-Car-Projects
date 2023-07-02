@@ -14,6 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 
+import java.awt.image.renderable.RenderableImage;
 import java.io.File;
 import java.net.URL;
 import java.sql.ResultSet;
@@ -23,24 +24,81 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class ReservationController implements Initializable {
+    @FXML
+    private Tab AddLocation;
 
     @FXML
-    private TableView RentalListTable, ReservationListTable;
-    @FXML
-    private AnchorPane ReservationInfoSide, ClientInfoSide, AddLocationContainer;
-    @FXML
-    TextField TxtNom, TxtPrenom, TxtAdresse, TxtEmail, TxtCIN, TxtNPermis;
-    @FXML
-    Label LbPERMIS, LbPrenom;
+    private AnchorPane AddLocationContainer;
 
     @FXML
-    Button btnAojuterResevation;
+    private AnchorPane ClientInfoSide;
+
+    @FXML
+    private Label LbCIN1;
+
+    @FXML
+    private Label LbCIN11;
+
+    @FXML
+    private Label LbCIN111;
+
+    @FXML
+    private Label LbCIN12;
+
+    @FXML
+    private Label LbCIN121;
+
+    @FXML
+    private Tab RentalList;
+
+    @FXML
+    private TableView<StatsController.Rent> RentalListTable;
+
+    @FXML
+    private AnchorPane ReservationInfoSide;
+
+    @FXML
+    private Tab ReservationList;
+
+    @FXML
+    private TableView<StatsController.Rent> ReservationListTable;
+
+    @FXML
+    private Button btnAnnuler;
+
+    @FXML
+    private Button btnAojuterResevation;
+
+    @FXML
+    private ComboBox<?> cb2emeConducteur;
+
+    @FXML
+    private ComboBox<?> cbConducteurs1;
+
+    @FXML
+    private ComboBox<?> cbVehicules;
+
+    @FXML
+    private CheckBox check2emeConducteur;
+
+    @FXML
+    private CheckBox checkComfirme;
+
+    @FXML
+    private DatePicker dpDateDepart;
+
+    @FXML
+    private DatePicker dpDateFin;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             ConfigureRentalListTable();
             ConfigureReservationListTable();
+
+            // event for the ckeckbox :
+
+
         }catch (Exception e){
             throw new RuntimeException(e);
         }
@@ -85,7 +143,7 @@ public class ReservationController implements Initializable {
 
     //this method is a  configuration for Reservation List Table
     public void ConfigureReservationListTable() throws Exception {
-        TableColumn<ReservationModel, String> numReservationCol = new TableColumn<>("N° Reservation");
+        TableColumn<StatsController.Rent, String> numReservationCol = new TableColumn<>("N° Reservation");
         numReservationCol.setCellValueFactory(new PropertyValueFactory<>("NumReservation"));
         numReservationCol.prefWidthProperty().bind(ReservationListTable.widthProperty().divide(5));
 
@@ -94,16 +152,16 @@ public class ReservationController implements Initializable {
         immatriculeCol.prefWidthProperty().bind(RentalListTable.widthProperty().divide(5));
         immatriculeCol.setMaxWidth(Double.MAX_VALUE);
 
-        TableColumn<ReservationModel, String> NomComplet = new TableColumn<>("NomComplet");
+        TableColumn<StatsController.Rent, String> NomComplet = new TableColumn<>("NomComplet");
         NomComplet.setCellValueFactory(new PropertyValueFactory<>("NomComplet"));
         NomComplet.prefWidthProperty().bind(ReservationListTable.widthProperty().divide(5));
 
 
-        TableColumn<ReservationModel, String> DateDepart = new TableColumn<>("DateDepart");
+        TableColumn<StatsController.Rent, String> DateDepart = new TableColumn<>("DateDepart");
         DateDepart.setCellValueFactory(new PropertyValueFactory<>("DateDepart"));
         DateDepart.prefWidthProperty().bind(ReservationListTable.widthProperty().divide(5));
 
-        TableColumn<ReservationModel, String> DateRetour = new TableColumn<>("DateRetour");
+        TableColumn<StatsController.Rent, String> DateRetour = new TableColumn<>("DateRetour");
         DateRetour.setCellValueFactory(new PropertyValueFactory<>("DateRetour"));
         DateRetour.prefWidthProperty().bind(ReservationListTable.widthProperty().divide(5));
 
