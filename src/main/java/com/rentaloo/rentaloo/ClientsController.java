@@ -201,9 +201,9 @@ public class ClientsController implements Initializable {
     }
 
 
-    public class ClientModel{
+    public static class ClientModel{
         private String idClient;
-        private String NomClient,PrenomClient,AdresseClient,EmailClient,TelClient;
+        private String NomClient,PrenomClient,AdresseClient,EmailClient,TelClient , NomComplet = NomClient + " " + PrenomClient;
         public ClientModel(String IdClient,String nomClient,String prenomClient,String adresseClient,String emailClient,String telClient){
             this.idClient=IdClient;
             this.NomClient = nomClient;

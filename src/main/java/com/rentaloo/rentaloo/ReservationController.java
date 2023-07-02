@@ -20,6 +20,7 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -93,14 +94,16 @@ public class ReservationController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
+            // remplir les tables :
             ConfigureRentalListTable();
             ConfigureReservationListTable();
 
-            // event for the ckeckbox :
-            check2emeConducteur.setOnMouseClicked(event -> {
-                // mettre la liste des deuximes conducteurs visible :
-                cb2emeConducteur.setDisable(!check2emeConducteur.isSelected());
-            });
+            // evenement pour le checkbox des deuxiemes conducteurs :
+            CongigueCheck2emeConducteur_Event();
+
+            // remplir la liste des conducteurs :
+            RemplirCbConducteurs ();
+
 
         }catch (Exception e){
             throw new RuntimeException(e);
@@ -108,6 +111,13 @@ public class ReservationController implements Initializable {
 
     }
 
+    private void CongigueCheck2emeConducteur_Event (){
+        // event for the ckeckbox :
+        check2emeConducteur.setOnMouseClicked(event -> {
+            // mettre la liste des deuximes conducteurs visible :
+            cb2emeConducteur.setDisable(!check2emeConducteur.isSelected());
+        });
+    }
 
     // this method is a configuration for rental List Table
     public void ConfigureRentalListTable() throws Exception {
@@ -199,6 +209,29 @@ public class ReservationController implements Initializable {
                 }
             }
         });
+    }
+
+    private void RemplirCbConducteurs() {
+        try {
+
+            List<ClientsController.ClientModel> clients = new ArrayList<>();
+            ResultSet result = DbContext.Execute("SELECT `IDCLIENT`, `NOM`, `PRENOM`, `ADRESSE`, `EMAIL`, `TEL` FROM `client`");
+            while (result.next()) {
+                // fill the client list from clients in the database:
+                ClientsController.ClientModel client = new ClientsController.ClientModel(
+                        result.getString(1),
+                        result.getString(2),
+                        result.getString(3),
+                        result.getString(4),
+                        result.getString(5),
+                        result.getString(6));
+                clients.add(client);
+            }
+            >>> here you need to add the items to the combobox search in google : >>>>>
+
+        }catch(Exception e){
+        }
+
     }
 
 
