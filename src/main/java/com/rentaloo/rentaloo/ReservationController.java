@@ -97,7 +97,10 @@ public class ReservationController implements Initializable {
             ConfigureReservationListTable();
 
             // event for the ckeckbox :
-
+            check2emeConducteur.setOnMouseClicked(event -> {
+                // mettre la liste des deuximes conducteurs visible :
+                cb2emeConducteur.setDisable(!check2emeConducteur.isSelected());
+            });
 
         }catch (Exception e){
             throw new RuntimeException(e);
