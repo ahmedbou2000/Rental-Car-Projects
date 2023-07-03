@@ -142,7 +142,7 @@ public class ClientsController implements Initializable {
         try {
             // preparer la requette
             String query = "INSERT INTO `client`(`IDCLIENT`, `NOM`, `PRENOM`, `ADRESSE`, `EMAIL`, `TEL`, `mdp`, `status`) " +
-                    "VALUES  (NULL, '%s', '%s', '%s', '%s', '%s', '%s', 'Comfirmé');";
+                    "VALUES  (NULL, '%s', '%s', '%s', '%s', '%s', '%s', 'confirmé');";
 
             // preparer les données entrés par l'utilisateur :
             String nom = txtNom.getText();

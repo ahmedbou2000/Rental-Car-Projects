@@ -239,16 +239,16 @@ public class ReservationController implements Initializable {
                 if (HelloApplication.ConfirmationAlert("Confirmation", "Confirmé cette reservation ?", "Voulez-vous confirmé cette reservations N°"+reservationSelectionnee.getNumReservation()+" du client : "+ reservationSelectionnee.getNomComplet()+" ?"))
                 {
                     try {
-                        // Comfirmer la reservation du client (update the statut to 'comfirmé') :
-                        DbContext.Execute("UPDATE `detail` SET `STATUT`='comfirmé' WHERE IDRESERVATION = "+reservationSelectionnee.getNumReservation()+"");
+                        // Comfirmer la reservation du client (update the statut to 'accepté') :
+                        DbContext.Execute("UPDATE `detail` SET `STATUT`='accepté' WHERE IDRESERVATION = "+reservationSelectionnee.getNumReservation()+"");
 
-                        HelloApplication.InformationAlert("Success", "", "La reservation N° "+reservationSelectionnee.getNumReservation()+" est Comfirmé !");
+                        HelloApplication.InformationAlert("Success", "", "La reservation N° "+reservationSelectionnee.getNumReservation()+" est accepté !");
 
                         // refresh the data :
                         remplirReservationsTable();
                         remplirLocationsTable();
                     }catch (Exception e){
-                        HelloApplication.ERRORAlert("Erreur", "Erreur de modification", "On a pas pu comfirmé la reservation !!!");
+                        HelloApplication.ERRORAlert("Erreur", "Erreur de modification", "On a pas pu de modifier la reservation !!!");
                     }
 
                 }
@@ -344,7 +344,7 @@ public class ReservationController implements Initializable {
                     "INNER JOIN detail d on d.IDRESERVATION = r.IDRESERVATION\n" +
                     "INNER JOIN voiture v on v.IDVOITURE = r.IDVOITURE \n" +
                     "INNER JOIN client c on c.IDCLIENT = r.IDCLIENT\n" +
-                    "WHERE d.STATUT = 'comfirmé' " +
+                    "WHERE d.STATUT = 'accepté' " +
                     "ORDER BY r.idReservation DESC");
 
             List<StatsController.Rent> listLocations = new ArrayList<>();
@@ -384,7 +384,7 @@ public class ReservationController implements Initializable {
             String idVehicule = cbVehicules.getSelectionModel().getSelectedItem().getIdVoiture()+"";
             String dateDepart = dpDateDepart.getEditor().getText();
             String dateFin = dpDateFin.getEditor().getText();
-            String isAccepted = checkComfirme.isSelected() ? "comfirmé" : "en attente" ;
+            String isAccepted = checkComfirme.isSelected() ? "accepté" : "en attente" ;
             String prixLocation = txtPrixLocation.getText();
 
             DbContext.Execute("insert into reservation values (NULL, '"+idConducteur1+"', '"+idVehicule+"', '"+idConducteur2+"', CURRENT_DATE(),'"+dateDepart+"','"+dateFin+"')");
@@ -396,7 +396,16 @@ public class ReservationController implements Initializable {
             }
             DbContext.Execute("insert into detail values (NULL, '"+idCurrentReservation+"', '"+prixLocation+"', '"+isAccepted+"')");
 
-            HelloApplication.InformationAlert("Success" ,"Reservation est bien été ajouté !", "");
+            HelloApplication.InformationAlert("Success", "Reservation est bien été ajouté !", "");
+            if (checkComfirme.isSelected()){
+                remplirLocationsTable();
+            }else{
+                remplirReservationsTable();
+            }
+
+            // vider les champs :
+            vider();
+
         }catch (Exception e){
             HelloApplication.ERRORAlert("Erreur", "Erreur d'ajouter une Reservation", e.getMessage());
         }
@@ -404,6 +413,10 @@ public class ReservationController implements Initializable {
     }
 
     public void btnAnnuler_Click(ActionEvent actionEvent) {
+        vider();
+    }
+
+    private void vider() {
         // vider les champs de la page :
         //clear combobox
 

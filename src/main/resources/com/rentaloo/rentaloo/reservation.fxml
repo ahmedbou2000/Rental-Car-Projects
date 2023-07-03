@@ -80,7 +80,7 @@
                               <DatePicker fx:id="dpDateDepart" layoutX="37.0" layoutY="353.0" AnchorPane.leftAnchor="37.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="353.0" />
                               <Label fx:id="LbCIN11" layoutX="40.0" layoutY="395.0" prefHeight="20.0" prefWidth="178.0" text="Date Retour :" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="395.0" />
                               <DatePicker fx:id="dpDateFin" layoutX="37.0" layoutY="423.0" AnchorPane.leftAnchor="37.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="423.0" />
-                              <CheckBox fx:id="checkComfirme" layoutX="37.0" layoutY="476.0" mnemonicParsing="false" selected="true" text="Comfirmé ?" AnchorPane.leftAnchor="37.0" AnchorPane.topAnchor="476.0" />
+                              <CheckBox fx:id="checkComfirme" layoutX="37.0" layoutY="476.0" mnemonicParsing="false" selected="true" text="Accepté ?" AnchorPane.leftAnchor="37.0" AnchorPane.topAnchor="476.0" />
                               <TextField fx:id="txtPrixLocation" layoutX="39.0" layoutY="546.0" prefHeight="35.0" prefWidth="398.0" promptText="Prix de location en DH" AnchorPane.leftAnchor="39.0" AnchorPane.rightAnchor="33.0" AnchorPane.topAnchor="546.0" />
                               <Label fx:id="lblPrixLocation" layoutX="40.0" layoutY="515.0" prefHeight="20.0" prefWidth="178.0" text="Prix Location :" />
                            </children>

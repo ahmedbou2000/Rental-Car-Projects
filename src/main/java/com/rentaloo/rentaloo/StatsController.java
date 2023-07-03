@@ -150,7 +150,7 @@ public class StatsController implements Initializable {
                                                     "where r.IDRESERVATION in (SELECT DISTINCT r.IDRESERVATION\n" +
                                                     "FROM reservation r\n" +
                                                     "INNER JOIN detail d on d.IDRESERVATION = r.IDRESERVATION\n" +
-                                                    "WHERE d.STATUT = 'comfirmé'\n" +
+                                                    "WHERE d.STATUT = 'accepté'\n" +
                                                     "    AND (YEAR(r.DATEDEBUT) = YEAR(CURRENT_DATE()) OR YEAR(r.DATEFIN) = YEAR(CURRENT_DATE()))\n" +
                                                     "    AND (MONTH(r.DATEDEBUT) = "+month+" OR MONTH(r.DATEFIN) = "+month+"));");
             result.next();
@@ -202,7 +202,7 @@ public class StatsController implements Initializable {
                                                         "INNER JOIN detail d on d.IDRESERVATION = r.IDRESERVATION\n" +
                                                         "INNER JOIN voiture v on v.IDVOITURE = r.IDVOITURE \n" +
                                                         "INNER JOIN client c on c.IDCLIENT = r.IDCLIENT\n" +
-                                                        "WHERE d.STATUT = 'comfirmé' and CURRENT_DATE() BETWEEN r.DATEDEBUT and r.DATEFIN");
+                                                        "WHERE d.STATUT = 'accepté' and CURRENT_DATE() BETWEEN r.DATEDEBUT and r.DATEFIN");
             List<Rent> listReservationsEnCours = new ArrayList<>();
             while (result.next()){
                 listReservationsEnCours.add(new Rent(
@@ -245,7 +245,7 @@ public class StatsController implements Initializable {
             ResultSet result = DbContext.Execute("SELECT COUNT(*) \n" +
                                                     "FROM `reservation` r\n" +
                                                     "INNER JOIN detail d ON d.IDRESERVATION = r.IDRESERVATION\n" +
-                                                    "WHERE d.STATUT = 'comfirmé' AND CURRENT_DATE() BETWEEN r.DATEDEBUT AND r.DATEFIN;");
+                                                    "WHERE d.STATUT = 'accepté' AND CURRENT_DATE() BETWEEN r.DATEDEBUT AND r.DATEFIN;");
             result.next();
             int NbrContratsEnCours =  result.getInt(1);
             stringNbrContratsEnCours = String.valueOf(NbrContratsEnCours);
@@ -269,7 +269,7 @@ public class StatsController implements Initializable {
                                                     "FROM `reservation` r\n" +
                                                     "INNER JOIN detail d ON d.IDRESERVATION = r.IDRESERVATION\n" +
                                                     "inner join voiture v on v.IDVOITURE = r.IDVOITURE\n" +
-                                                    "WHERE d.STATUT = 'comfirmé' AND CURRENT_DATE() BETWEEN r.DATEDEBUT AND r.DATEFIN );");
+                                                    "WHERE d.STATUT = 'accepté' AND CURRENT_DATE() BETWEEN r.DATEDEBUT AND r.DATEFIN );");
             result.next();
             int NbrVehiculesLibres = result.getInt(1);
             stringNbrVehiculesLibres = String.valueOf(NbrVehiculesLibres);
