@@ -13,12 +13,16 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.StringConverter;
+import org.mariadb.jdbc.client.Client;
 
 import java.awt.image.renderable.RenderableImage;
 import java.io.File;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -71,13 +75,13 @@ public class ReservationController implements Initializable {
     private Button btnAojuterResevation;
 
     @FXML
-    private ComboBox<?> cb2emeConducteur;
+    private ComboBox<ClientsController.ClientModel> cb2emeConducteur;
 
     @FXML
-    private ComboBox<?> cbConducteurs1;
+    private ComboBox<ClientsController.ClientModel> cbConducteurs1;
 
     @FXML
-    private ComboBox<?> cbVehicules;
+    private ComboBox<VehiculeController.CarModel> cbVehicules;
 
     @FXML
     private CheckBox check2emeConducteur;
@@ -91,6 +95,9 @@ public class ReservationController implements Initializable {
     @FXML
     private DatePicker dpDateFin;
 
+    @FXML
+    private TextField txtPrixLocation;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
@@ -101,13 +108,51 @@ public class ReservationController implements Initializable {
             // evenement pour le checkbox des deuxiemes conducteurs :
             CongigueCheck2emeConducteur_Event();
 
-            // remplir la liste des conducteurs :
+            // remplir les listes des conducteurs :
             RemplirCbConducteurs ();
+
+            // remplir la liste des vehicules :
+            RemplirCbVehicules();
+
+            // configurer le format de date picker :
+            ConfigueDatePickerFormat();
 
 
         }catch (Exception e){
             throw new RuntimeException(e);
         }
+
+    }
+
+    private void ConfigueDatePickerFormat() {
+        dpDateDepart.setValue(LocalDate.now());
+        dpDateFin.setValue(LocalDate.now());
+        dpDateFin.setConverter(new StringConverter<LocalDate>() {
+            @Override
+            public String toString(LocalDate localDate) {
+                DateTimeFormatter dtf =  DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                return dtf.format(localDate);
+            }
+
+            @Override
+            public LocalDate fromString(String s) {
+                return null;
+            }
+        });
+
+
+        dpDateDepart.setConverter(new StringConverter<LocalDate>() {
+            @Override
+            public String toString(LocalDate localDate) {
+                DateTimeFormatter dtf =  DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                return dtf.format(localDate);
+            }
+
+            @Override
+            public LocalDate fromString(String s) {
+                return null;
+            }
+        });
 
     }
 
@@ -227,13 +272,39 @@ public class ReservationController implements Initializable {
                         result.getString(6));
                 clients.add(client);
             }
-            >>> here you need to add the items to the combobox search in google : >>>>>
+            // set the data to the comboboxof conducteurs :
+            cbConducteurs1.setItems(FXCollections.observableArrayList(clients));
+            cb2emeConducteur.setItems((FXCollections.observableArrayList(clients)));
 
         }catch(Exception e){
         }
 
     }
 
+    private void RemplirCbVehicules(){
+        // remplir la liste des vihicules :
+        try {
+            // query the database and return a list of CarModel objects
+            List<VehiculeController.CarModel> myCarList = new ArrayList<>();
+            ResultSet rs = DbContext.Execute("select * from voiture ORDER BY marque");
+            while (rs.next()) {
+                myCarList.add(new VehiculeController.CarModel(
+                        rs.getInt("IDVOITURE"),
+                        rs.getString("IMMATRICULE"),
+                        rs.getString("MARQUE"),
+                        rs.getString("MODELE"),
+                        rs.getString("CARBURANT"),
+                        rs.getInt("ANNEE"),
+                        rs.getString("img")
+                ));
+            }
+
+            // set the data to the comboboxof conducteurs :
+            cbVehicules.setItems(FXCollections.observableArrayList(myCarList));
+
+        }catch(Exception e){
+        }
+    }
 
     private void remplirReservationsTable () throws Exception {
         // get data :
@@ -294,12 +365,65 @@ public class ReservationController implements Initializable {
         }
     }
 
-    public void btnAjouterReservation_Click(ActionEvent actionEvent) {
+    public void btnAjouterReservation_Click(ActionEvent actionEvent)
+    {
+        try{
+            // ajouter la reservation :
+            if (cbConducteurs1.getSelectionModel().getSelectedIndex() == -1 ||
+                    ( check2emeConducteur.isSelected() && cb2emeConducteur.getSelectionModel().getSelectedIndex() == -1  ) ||
+                    dpDateDepart.getEditor().getText() == "" ||
+                    dpDateFin.getEditor().getText() == "" ||
+                    txtPrixLocation.getText() == ""){
+                // des informations manquante :
+                HelloApplication.InformationAlert("Validation de données", "Merci de remplir tous les champs !", "");
+                return;
+            }
+            // get data :
+            String idConducteur1 = cbConducteurs1.getSelectionModel().getSelectedItem() != null ? cbConducteurs1.getSelectionModel().getSelectedItem().getIdClient() : "";
+            String idConducteur2 = check2emeConducteur.isSelected()? cb2emeConducteur.getSelectionModel().getSelectedItem() != null ? cb2emeConducteur.getSelectionModel().getSelectedItem().getIdClient(): "" : "NULL";
+            String idVehicule = cbVehicules.getSelectionModel().getSelectedItem().getIdVoiture()+"";
+            String dateDepart = dpDateDepart.getEditor().getText();
+            String dateFin = dpDateFin.getEditor().getText();
+            String isAccepted = checkComfirme.isSelected() ? "comfirmé" : "en attente" ;
+            String prixLocation = txtPrixLocation.getText();
 
+            DbContext.Execute("insert into reservation values (NULL, '"+idConducteur1+"', '"+idVehicule+"', '"+idConducteur2+"', CURRENT_DATE(),'"+dateDepart+"','"+dateFin+"')");
+            ResultSet result =  DbContext.Execute("select idReservation from reservation order by idReservation desc limit 1");
+            String idCurrentReservation = "";
+            if (result.next()){
+                // get : reservation ajouté maintenant :
+                idCurrentReservation = result.getString(1);
+            }
+            DbContext.Execute("insert into detail values (NULL, '"+idCurrentReservation+"', '"+prixLocation+"', '"+isAccepted+"')");
+
+            HelloApplication.InformationAlert("Success" ,"Reservation est bien été ajouté !", "");
+        }catch (Exception e){
+            HelloApplication.ERRORAlert("Erreur", "Erreur d'ajouter une Reservation", e.getMessage());
+        }
 
     }
 
     public void btnAnnuler_Click(ActionEvent actionEvent) {
+        // vider les champs de la page :
+        //clear combobox
+
+        cbConducteurs1.getSelectionModel().clearSelection();
+        cb2emeConducteur.getSelectionModel().clearSelection();
+
+        // check 2eme conducteur par defaut :
+        check2emeConducteur.setSelected(false);
+        cb2emeConducteur.setDisable(true);
+
+        // clear vehicules selections :
+        cbVehicules.getSelectionModel().clearSelection();
+
+        // clear date selections :
+        dpDateDepart.setValue(LocalDate.now());
+        dpDateFin.setValue(LocalDate.now());
+
+        // check comfirme par defaut :
+        checkComfirme.setSelected(true);
+
     }
 
     //this is a class Model for showing data in Reservation Table
@@ -321,6 +445,7 @@ public class ReservationController implements Initializable {
             this.DateRetour = dateRetour;
 
         }
+
 
         public String getImmatricule() {
             return Immatricule;

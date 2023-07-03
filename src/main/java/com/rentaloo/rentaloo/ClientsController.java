@@ -203,7 +203,7 @@ public class ClientsController implements Initializable {
 
     public static class ClientModel{
         private String idClient;
-        private String NomClient,PrenomClient,AdresseClient,EmailClient,TelClient , NomComplet = NomClient + " " + PrenomClient;
+        private String NomClient,PrenomClient,AdresseClient,EmailClient,TelClient ;
         public ClientModel(String IdClient,String nomClient,String prenomClient,String adresseClient,String emailClient,String telClient){
             this.idClient=IdClient;
             this.NomClient = nomClient;
@@ -211,6 +211,11 @@ public class ClientsController implements Initializable {
             this.AdresseClient = adresseClient;
             this.TelClient= telClient;
             this.EmailClient=emailClient;
+        }
+
+        @Override
+        public String toString() {
+            return this.NomClient +" "+ this.PrenomClient;
         }
 
         public String getIdClient() {
@@ -260,6 +265,7 @@ public class ClientsController implements Initializable {
         public void setTelClient(String telClient) {
             TelClient = telClient;
         }
+
 
     }
 }

@@ -113,7 +113,12 @@ public class VehiculeController implements Initializable {
 
                         query = String.format(query, year, doors, ac, price, gear, fuel, idVoiture);
                         DbContext.Execute(query);
-                        HelloApplication.copyImageToDestination(SelectedFile);
+                        try{
+                            HelloApplication.copyImageToDestination(SelectedFile);
+                        }catch (Exception e){
+
+                        }
+
                         HelloApplication.InformationAlert("Succes", "", "Voiture Ajouté avec success !");
                         Vider();
 
@@ -326,7 +331,7 @@ public class VehiculeController implements Initializable {
     }
 
 
-    public class CarModel {
+    public static class CarModel {
         private int idVoiture;
         private String Immatricule, Marque, Model, Carburant;
         private int Year;
@@ -341,6 +346,11 @@ public class VehiculeController implements Initializable {
             this.Carburant = carb;
             this.Year = year;
             this.img = Img;
+        }
+
+        @Override
+        public String toString() {
+            return this.Immatricule +" : "+ this.Marque;
         }
 
         public String getImmatricule() {

@@ -29,6 +29,7 @@ public class HelloApplication extends Application {
 
         HelloController controller = fxmlLoader.getController();
 
+
         stage.setOnShown(event -> {
             controller.setWidth();
         });

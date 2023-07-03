@@ -9,12 +9,13 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="592.0" prefWidth="933.0" stylesheets="@../../../Styles/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rentaloo.rentaloo.ReservationController">
+<AnchorPane prefHeight="682.0" prefWidth="933.0" stylesheets="@../../../Styles/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rentaloo.rentaloo.ReservationController">
    <children>
       <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
@@ -48,14 +49,14 @@
                         <Insets top="5.0" />
                      </padding>
                      <children>
-                        <AnchorPane fx:id="ReservationInfoSide" layoutX="481.0" layoutY="10.0" prefHeight="518.0" prefWidth="455.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="ReservationInfoSide" layoutX="481.0" layoutY="10.0" prefHeight="531.0" prefWidth="452.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
                            <children>
-                              <Button fx:id="btnAojuterResevation" layoutX="32.0" layoutY="353.0" mnemonicParsing="false" onAction="#btnAjouterReservation_Click" prefHeight="34.0" prefWidth="398.0" style="-fx-background-color: green;" styleClass="btn" stylesheets="@../../../Styles/style.css" text="valider et enregistrer" textFill="WHITE" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="32.0" AnchorPane.topAnchor="353.0">
+                              <Button fx:id="btnAojuterResevation" layoutX="32.0" layoutY="479.0" mnemonicParsing="false" onAction="#btnAjouterReservation_Click" prefHeight="34.0" prefWidth="398.0" style="-fx-background-color: green;" styleClass="btn" stylesheets="@../../../Styles/style.css" text="valider et enregistrer" textFill="WHITE" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="32.0" AnchorPane.topAnchor="479.0">
                                  <font>
                                     <Font name="Century Gothic Bold" size="15.0" />
                                  </font>
                               </Button>
-                              <Button fx:id="btnAnnuler" layoutX="32.0" layoutY="421.0" mnemonicParsing="false" onAction="#btnAnnuler_Click" prefHeight="34.0" prefWidth="398.0" style="-fx-background-color: tomato;" styleClass="btn" stylesheets="@../../../Styles/style.css" text="annuler" textFill="WHITE" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="32.0" AnchorPane.topAnchor="421.0">
+                              <Button fx:id="btnAnnuler" layoutX="32.0" layoutY="547.0" mnemonicParsing="false" onAction="#btnAnnuler_Click" prefHeight="34.0" prefWidth="398.0" style="-fx-background-color: tomato;" styleClass="btn" stylesheets="@../../../Styles/style.css" text="annuler" textFill="WHITE" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="32.0" AnchorPane.topAnchor="547.0">
                                  <font>
                                     <Font name="Century Gothic Bold" size="15.0" />
                                  </font>
@@ -66,7 +67,7 @@
                                  </image>
                               </ImageView>
                            </children></AnchorPane>
-                        <AnchorPane fx:id="ClientInfoSide" prefHeight="518.0" prefWidth="470.0" style="-fx-background-color: White;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="463.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="ClientInfoSide" layoutY="10.0" prefHeight="568.0" prefWidth="470.0" style="-fx-background-color: White;" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="463.0" AnchorPane.topAnchor="5.0">
                            <children>
                               <ComboBox fx:id="cbConducteurs1" layoutX="40.0" layoutY="56.0" prefHeight="35.0" prefWidth="398.0" promptText="Sélectionner Premier Conducteur" style="-fx-background-color: whitesmoke;" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="32.0" AnchorPane.topAnchor="56.0" />
                               <Label fx:id="LbCIN12" layoutX="40.0" layoutY="24.0" prefHeight="20.0" prefWidth="178.0" text="Premier Conducteur :" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="24.0" />
@@ -80,6 +81,8 @@
                               <Label fx:id="LbCIN11" layoutX="40.0" layoutY="395.0" prefHeight="20.0" prefWidth="178.0" text="Date Retour :" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="395.0" />
                               <DatePicker fx:id="dpDateFin" layoutX="37.0" layoutY="423.0" AnchorPane.leftAnchor="37.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="423.0" />
                               <CheckBox fx:id="checkComfirme" layoutX="37.0" layoutY="476.0" mnemonicParsing="false" selected="true" text="Comfirmé ?" AnchorPane.leftAnchor="37.0" AnchorPane.topAnchor="476.0" />
+                              <TextField fx:id="txtPrixLocation" layoutX="39.0" layoutY="546.0" prefHeight="35.0" prefWidth="398.0" promptText="Prix de location en DH" AnchorPane.leftAnchor="39.0" AnchorPane.rightAnchor="33.0" AnchorPane.topAnchor="546.0" />
+                              <Label fx:id="lblPrixLocation" layoutX="40.0" layoutY="515.0" prefHeight="20.0" prefWidth="178.0" text="Prix Location :" />
                            </children>
                         </AnchorPane>
                      </children></AnchorPane>
