@@ -1,0 +1,6 @@
+- javafx-sdk-20.0.1 .... importer tous les fichiers (.jar) javafx-sdk-20.0.1\lib .
+- Modifier les packege et les modules du runtime au compiler ( do it if you have an erreur ) . 
+- mysql-connector-j-8.0.33 .... importer le fichier (.jar) .
+- openjfx-20.0.1_windows-x64_bin-sdk .
+
+
